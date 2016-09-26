@@ -46,4 +46,30 @@ class Orders
         return $this->wpdb->get_results($query);
     }
 
+
+    public function getCart()
+    {
+        $session_id = session_id();
+        $query = "SELECT * FROM {$this->wpdb->prefix}cart WHERE session_id = '{$session_id}'";
+        $cart = $this->wpdb->get_row($query);
+
+        if (empty($cart)) {
+
+            // Initialize empty array
+            $cart = [
+                'session_id'  => $session_id,
+                'name'        => '',
+                'phone'       => '',
+                'email'       => '',
+                'city_id'     => '',
+                'district_id' => '',
+                'address'     => '',
+                'note'        => ''
+            ];
+
+        }
+
+        return $cart;
+    }
+
 }

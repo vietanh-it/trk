@@ -689,7 +689,24 @@ class OrdersController extends _BaseController
             'note'        => $args['note']
         ];
 
-        return $data;
+        $session_id = session_id();
+
+        // Create cart draft
+        $query = "SELECT * FROM {$this->prefix}cart WHERE session_id = '{$session_id}'";
+        $cart = $this->wpdb->get_row($query);
+
+        if (empty($cart)) {
+            $data['session_id'] = $session_id;
+            $this->wpdb->insert($this->prefix . 'cart', $data);
+        }
+        else {
+            $this->wpdb->update($this->prefix . 'cart', $data, ['session_id' => $session_id]);
+        }
+
+        return [
+            'status' => 'success',
+            'data'   => $data
+        ];
     }
 
 }

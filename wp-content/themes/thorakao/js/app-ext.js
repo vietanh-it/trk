@@ -70,121 +70,121 @@ jQuery(document).ready(function ($) {
     // });
 
 
-    //Delete product row at shopping cart
-    $(document).delegate('[data-delete-product-cart]', 'click', function (e) {
-        e.preventDefault();
-        var obj = $(this);
+    // //Delete product row at shopping cart
+    // $(document).delegate('[data-delete-product-cart]', 'click', function (e) {
+    //     e.preventDefault();
+    //     var obj = $(this);
+    //
+    //     var product_id = obj.data('delete-product-cart');
+    //     $.ajax({
+    //         url: ajaxurl,
+    //         type: "post",
+    //         dataType: 'json',
+    //         data: {
+    //             action: "trk_ajax_handler_order",
+    //             method: "DeleteProductCart",
+    //             product_id: product_id
+    //         },
+    //         beforeSend: function () {
+    //             obj.attr('disabled', true).css({'opacity': '0.5'});
+    //             // $('.btn-submit-checkout').attr('disabled', true).css({'opacity': '0.5'});
+    //         },
+    //         success: function (data) {
+    //             obj.attr('disabled', false).css({'opacity': 1});
+    //             // $('.btn-submit-checkout').attr('disabled', false).css({'opacity': 1});
+    //             if (data.status == 'success') {
+    //
+    //                 obj.parents('tr').remove();
+    //
+    //                 $('.cart-total-item').html(data.data.total_quantity);
+    //                 $('.shipping-fee').html(data.data.shipping_fee);
+    //                 $('.order-total-quantity').html(data.data.total_quantity);
+    //                 $('.cart-total .amount, .cart-total-value').html(data.data.subtotal);
+    //
+    //                 $('[data-order-total]').data('order-total', data.data.subtotal_raw).html(data.data.subtotal);
+    //                 $('.order-final-total').html(data.data.total);
+    //
+    //                 $('[data-pid="' + product_id + '"]').remove();
+    //
+    //             }
+    //             else {
+    //                 swal({"title": "Error", "text": data.message, "type": "error", html: true});
+    //             }
+    //         }
+    //     });
+    // });
 
-        var product_id = obj.data('delete-product-cart');
-        $.ajax({
-            url: ajaxurl,
-            type: "post",
-            dataType: 'json',
-            data: {
-                action: "trk_ajax_handler_order",
-                method: "DeleteProductCart",
-                product_id: product_id
-            },
-            beforeSend: function () {
-                obj.attr('disabled', true).css({'opacity': '0.5'});
-                // $('.btn-submit-checkout').attr('disabled', true).css({'opacity': '0.5'});
-            },
-            success: function (data) {
-                obj.attr('disabled', false).css({'opacity': 1});
-                // $('.btn-submit-checkout').attr('disabled', false).css({'opacity': 1});
-                if (data.status == 'success') {
 
-                    obj.parents('tr').remove();
-
-                    $('.cart-total-item').html(data.data.total_quantity);
-                    $('.shipping-fee').html(data.data.shipping_fee);
-                    $('.order-total-quantity').html(data.data.total_quantity);
-                    $('.cart-total .amount, .cart-total-value').html(data.data.subtotal);
-
-                    $('[data-order-total]').data('order-total', data.data.subtotal_raw).html(data.data.subtotal);
-                    $('.order-final-total').html(data.data.total);
-
-                    $('[data-pid="' + product_id + '"]').remove();
-
-                }
-                else {
-                    swal({"title": "Error", "text": data.message, "type": "error", html: true});
-                }
-            }
-        });
-    });
-
-
-    $('.form-detail').validate({
-        rules: {
-            quantity: {
-                required: true,
-                min: 1
-            }
-        },
-        messages: {
-            quantity: {
-                requrired: "Vui lòng chọn số lượng muốn mua.",
-                min: "Vui lòng chọn số lượng muốn mua."
-            }
-        },
-        errorPlacement: function (error, element) {
-            element.attr('data-original-title', error.text())
-                .attr('data-toggle', 'tooltip')
-                .attr('data-placement', 'top');
-            $(element).tooltip('show');
-        },
-        unhighlight: function (element) {
-            $(element)
-                .removeAttr('data-toggle')
-                .removeAttr('data-original-title')
-                .removeAttr('data-placement')
-                .removeClass('error');
-            $(element).unbind("tooltip");
-        },
-        submitHandler: function (form) {
-            var obj = $(form);
-            $.ajax({
-                url: ajaxurl,
-                type: "post",
-                dataType: 'json',
-                data: obj.serialize(),
-                beforeSend: function () {
-                    $('input, button[type=submit]', obj).attr('disabled', true).css({'opacity': '0.5'});
-                },
-                success: function (data) {
-                    $('input, button[type=submit]', obj).attr('disabled', false).css({'opacity': 1});
-                    if (data.status == 'success') {
-                        swal({
-                                title: data.message,
-                                text: "<p style='font-weight: bold;color: #80b501'>Bạn có muốn xem giỏ hàng?</p>",
-                                type: "success",
-                                showCancelButton: true,
-                                confirmButtonColor: "#80b501",
-                                confirmButtonText: "Xem giỏ hàng",
-                                closeOnConfirm: false,
-                                cancelButtonText: "Mua tiếp",
-                                html: true
-                            },
-                            function (is_confirm) {
-                                if (is_confirm) {
-                                    window.location.href = data.data.url;
-                                } else {
-                                    window.location.reload();
-                                }
-                            });
-                    }
-                    else {
-                        if(data.message) {
-                            swal({"title": "Error", "text": data.message, "type": "error", html: true});
-                        } else if (data.data) {
-                            swal({"title": "Thất bại", "text": data.data, "type": "error", html: true});
-                        }
-                    }
-                }
-            });
-        }
-    });
+    // $('.form-detail').validate({
+    //     rules: {
+    //         quantity: {
+    //             required: true,
+    //             min: 1
+    //         }
+    //     },
+    //     messages: {
+    //         quantity: {
+    //             requrired: "Vui lòng chọn số lượng muốn mua.",
+    //             min: "Vui lòng chọn số lượng muốn mua."
+    //         }
+    //     },
+    //     errorPlacement: function (error, element) {
+    //         element.attr('data-original-title', error.text())
+    //             .attr('data-toggle', 'tooltip')
+    //             .attr('data-placement', 'top');
+    //         $(element).tooltip('show');
+    //     },
+    //     unhighlight: function (element) {
+    //         $(element)
+    //             .removeAttr('data-toggle')
+    //             .removeAttr('data-original-title')
+    //             .removeAttr('data-placement')
+    //             .removeClass('error');
+    //         $(element).unbind("tooltip");
+    //     },
+    //     submitHandler: function (form) {
+    //         var obj = $(form);
+    //         $.ajax({
+    //             url: ajaxurl,
+    //             type: "post",
+    //             dataType: 'json',
+    //             data: obj.serialize(),
+    //             beforeSend: function () {
+    //                 $('input, button[type=submit]', obj).attr('disabled', true).css({'opacity': '0.5'});
+    //             },
+    //             success: function (data) {
+    //                 $('input, button[type=submit]', obj).attr('disabled', false).css({'opacity': 1});
+    //                 if (data.status == 'success') {
+    //                     swal({
+    //                             title: data.message,
+    //                             text: "<p style='font-weight: bold;color: #80b501'>Bạn có muốn xem giỏ hàng?</p>",
+    //                             type: "success",
+    //                             showCancelButton: true,
+    //                             confirmButtonColor: "#80b501",
+    //                             confirmButtonText: "Xem giỏ hàng",
+    //                             closeOnConfirm: false,
+    //                             cancelButtonText: "Mua tiếp",
+    //                             html: true
+    //                         },
+    //                         function (is_confirm) {
+    //                             if (is_confirm) {
+    //                                 window.location.href = data.data.url;
+    //                             } else {
+    //                                 window.location.reload();
+    //                             }
+    //                         });
+    //                 }
+    //                 else {
+    //                     if (data.message) {
+    //                         swal({"title": "Error", "text": data.message, "type": "error", html: true});
+    //                     } else if (data.data) {
+    //                         swal({"title": "Thất bại", "text": data.data, "type": "error", html: true});
+    //                     }
+    //                 }
+    //             }
+    //         });
+    //     }
+    // });
 
 
     $('#form-checkout').validate({
@@ -250,15 +250,15 @@ jQuery(document).ready(function ($) {
                         // text: "<p style='font-weight: bold;color: black'>Đặt hàng thành công, mã đơn hàng của bạn là: " + data.data.order_id + ".</p><br/>Vui lòng kiểm tra hộp thư đến hoặc hộp thư spam để xem đơn hàng.",
 
                         swal({
-                            title: 'Thành công',
-                            text: "<p style='font-weight: bold;color: black'>Đặt hàng thành công, mã đơn hàng của bạn là: " + data.data.order_id + ".</p><br/>Vui lòng kiểm tra hộp thư đến hoặc hộp thư spam để xem đơn hàng.",
-                            confirmButtonColor: "#80b501",
-                            type: "success",
-                            html: true
-                        },
-                        function () {
-                            window.location.href = data.data.url;
-                        });
+                                title: 'Thành công',
+                                text: "<p style='font-weight: bold;color: black'>Đặt hàng thành công, mã đơn hàng của bạn là: " + data.data.order_id + ".</p><br/>Vui lòng kiểm tra hộp thư đến hoặc hộp thư spam để xem đơn hàng.",
+                                confirmButtonColor: "#80b501",
+                                type: "success",
+                                html: true
+                            },
+                            function () {
+                                window.location.href = data.data.url;
+                            });
                     }
                     else {
                         swal({"title": "Error", "text": data.message, "type": "error", html: true});
@@ -389,8 +389,17 @@ jQuery(document).ready(function ($) {
     });
 
 
-    $('[data-toggle]').on('click', function () {
-        var objClass = $(this).data('toggle');
-        $('.' + objClass).slideToggle();
-    });
+    // $('[data-toggle]').on('click', function () {
+    //     var objClass = $(this).data('toggle');
+    //     $('.' + objClass).slideToggle();
+    // });
 });
+
+
+function switch_loading(is_loading) {
+    if (is_loading) {
+        $('.loading-wrapper').fadeIn();
+    } else {
+        $('.loading-wrapper').fadeOut();
+    }
+}

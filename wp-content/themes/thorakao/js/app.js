@@ -17,8 +17,6 @@ jQuery(document).ready(function ($) {
     // });
 
 
-
-
     $('#form-checkout').validate({
         rules: {
             name: "required",
@@ -78,121 +76,6 @@ jQuery(document).ready(function ($) {
                     }
                     else {
                         swal({"title": "Error", "text": data.message, "type": "error", html: true});
-                    }
-                }
-            });
-        }
-    });
-
-
-    $(document).delegate('#city_id', 'change', function (e) {
-        e.preventDefault();
-        var obj = $(this);
-        var city_id = obj.val();
-
-        if (city_id == 1) {
-            $('#district_id').parent('.district-wrapper').fadeIn();
-        } else {
-            $('#district_id').parent('.district-wrapper').fadeOut();
-        }
-        $.ajax({
-            url: ajaxurl,
-            type: "post",
-            dataType: 'json',
-            data: {
-                action: "trk_ajax_handler_post",
-                method: "GetDistrictList",
-                city_id: city_id
-            },
-            beforeSend: function () {
-                obj.attr('disabled', true).css({'opacity': '0.5'});
-                $('.btn-submit-checkout').attr('disabled', true).css({'opacity': '0.5'});
-            },
-            success: function (data) {
-                obj.attr('disabled', false).css({'opacity': 1});
-                $('.btn-submit-checkout').attr('disabled', false).css({'opacity': 1});
-                if (data.status == 'success') {
-
-                    //Clear current districts
-                    $('#district_id option:gt(0)').remove();
-
-                    var options = [];
-                    $.each(data.data, function (k, v) {
-                        var item = new Option(v.name, v.id);
-                        options.push(item);
-                    });
-                    $('#district_id').append(options);
-                }
-                else {
-                    swal({"title": "Error", "text": data.message, "type": "error", html: true});
-                }
-            }
-        });
-
-        if (city_id != 1) {
-            $.ajax({
-                url: ajaxurl,
-                type: "post",
-                dataType: 'json',
-                data: {
-                    action: "trk_ajax_handler_order",
-                    method: "GetShippingFee",
-                    city_id: city_id,
-                    district_id: $('#district_id').val(),
-                    subtotal: $('[data-order-total]').attr('data-order-total')
-                },
-                beforeSend: function () {
-                    // obj.attr('disabled', true).css({'opacity': '0.5'});
-                    $('.btn-submit-checkout').attr('disabled', true).css({'opacity': '0.5'});
-                },
-                success: function (data) {
-                    // obj.attr('disabled', false).css({'opacity': 1});
-                    $('.btn-submit-checkout').attr('disabled', false).css({'opacity': 1});
-                    if (data.status == 'success') {
-
-                        $('.shipping-fee').html(data.data.shipping_fee_display);
-                        $('.cart-total').html(data.data.total_display);
-                        $('#input_shipping_fee').val(data.data.shipping_fee);
-                        $('#input_cart_total').val(data.data.total);
-
-                    }
-                }
-            });
-        }
-    });
-
-
-    $(document).delegate('#district_id', 'change', function (e) {
-        e.preventDefault();
-        var order_total = $('[data-order-total]').attr('data-order-total');
-        var district_id = $(this).val();
-
-        if ($('#city_id').val() == 1) {
-            $.ajax({
-                url: ajaxurl,
-                type: "post",
-                dataType: 'json',
-                data: {
-                    action: "trk_ajax_handler_order",
-                    method: "GetShippingFee",
-                    city_id: $('#city_id').val(),
-                    district_id: $('#district_id').val(),
-                    subtotal: $('[data-order-total]').attr('data-order-total')
-                },
-                beforeSend: function () {
-                    // obj.attr('disabled', true).css({'opacity': '0.5'});
-                    $('.btn-submit-checkout').attr('disabled', true).css({'opacity': '0.5'});
-                },
-                success: function (data) {
-                    // obj.attr('disabled', false).css({'opacity': 1});
-                    $('.btn-submit-checkout').attr('disabled', false).css({'opacity': 1});
-                    if (data.status == 'success') {
-
-                        $('.shipping-fee').html(data.data.shipping_fee_display);
-                        $('.cart-total').html(data.data.total_display);
-                        $('#input_shipping_fee').val(data.data.shipping_fee);
-                        $('#input_cart_total').val(data.data.total);
-
                     }
                 }
             });

@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <!--<meta name="viewport" content="width=device-width, initial-scale=1"> -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"> <!-- enable media queries for windows phone 8 -->
+    <meta name="format-detection" content="telephone=no"> <!-- disable auto telephone linking in iOS -->
+
+    <style>
+        /* Client-specific Styles */
+        #outlook a {
+            padding: 0;
+        }
+
+        /* Force Outlook to provide a "view in browser" button. */
+        body {
+            width: 100% !important;
+        }
+
+        .ReadMsgBody {
+            width: 100%;
+        }
+
+        .ExternalClass {
+            width: 100%;
+        }
+
+        /* Force Hotmail to display emails at full width */
+        body {
+            -webkit-text-size-adjust: none;
+        }
+
+        /* Prevent Webkit platforms from changing default text sizes. */
+
+        /* Reset Styles */
+        body {
+            margin: 0;
+            padding: 0;
+        }
+
+        img {
+            border: 0;
+            height: auto;
+            line-height: 100%;
+            outline: none;
+            text-decoration: none;
+        }
+
+        table td {
+            border-collapse: collapse;
+        }
+
+        #backgroundTable {
+            height: 100% !important;
+            margin: 0;
+            padding: 0;
+            width: 100% !important;
+        }
+
+        @media screen and (max-width: 480px) {
+            .container, .force-row {
+                width: 100% !important;
+                max-width: 100% !important;
+            }
+        }
+    </style>
+</head>
+<body style="-ms-text-size-adjust: 100%; -webkit-text-size-adjust: 100%; font-family: Arial,sans-serif;  font-size: 14px; color: #363636; margin: 0; padding: 0; width: 100%;"
+      bgcolor="#fff" leftmargin="0" topmargin="0" marginwidth="0" marginheight="0">
+<!--[if mso]>
+<style> body, table tr, table td, a, span, table.MsoNormalTable {
+    font-family: Arial, Helvetica, sans-serif !important;
+}</style>
+<!--<![endif]-->
+<table border="0" width="100%" height="100%" cellpadding="0" cellspacing="0" bgcolor="#fff"
+       style="border-spacing: 0; mso-table-lspace: 0; mso-table-rspace: 0;">
+    <tr>
+        <td align="center" valign="top" bgcolor="#f4f4f4" style="background-color: #f4f4f4; border-collapse: collapse;">
+            <table cellpadding="0" cellspacing="0">
+                <tr>
+                    <td align="center" style="padding: 10px 0px; font-size: 0px">
+                        <a href="[%site_url%]" class="dpib"
+                           style="color: #ec407c; display: inline-block; text-decoration: none; font-size: 0"><img
+                                src="http://namvang.vn/wp-content/themes/thorakao/images/logo.png" width="250"
+                                style="-ms-interpolation-mode: bicubic; border: 0; height: auto; line-height: 100%; max-width: 100%; outline: 0; text-decoration: none;"></a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <!-- 640px container (white background) -->
+                        <table border="0" cellpadding="0" cellspacing="0" class="container"
+                               style="border-spacing: 0; max-width: 640px; mso-table-lspace: 0; mso-table-rspace: 0; border: 1px solid #f0f0f0"
+                               width="640">
+                            <tr>
+                                <td bgcolor="ffffff"
+                                    style="background-color: #ffffff; border-collapse: collapse; padding: 3%;">
+                                    <table style="background:#fff; width:100%;" cellspacing="0" cellpadding="0">
+
+                                        <tr>
+                                            <td>
+                                                <div style="color:#594a42; text-align:center; font-size:14px;">Cảm ơn
+                                                    bạn đã mua hàng tại Thorakao
+                                                </div>
+                                                <div style="color:#594a42; text-align:center; font-size:16px; font-weight:bold; text-transform: capitalize; margin-top: 10px;">
+                                                    Đơn đặt hàng
+                                                </div>
+                                                <br><br>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td style="width:100%;">
+                                                <table cellspacing="0" cellpadding="0" width="100%"
+                                                       style="margin:0 auto;">
+                                                    <tr>
+                                                        <td colspan="6">
+                                                            <div style="text-align:center; color:#fff; padding:10px 0;background:#80b501">
+                                                                Mã đơn hàng: <b style="font-size:18px;">[%order_id%]</b>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+
+                                                    <tr>
+                                                        <th colspan="6">
+                                                            <div style="text-align:center; color:#333333; padding:10px 0;background:#dddddd">
+                                                                <i style="text-transform: capitalize;">Thông tin người
+                                                                    mua hàng</i>
+                                                            </div>
+                                                        </th>
+                                                    </tr>
+
+                                                    <tr>
+                                                        <td width="50%"
+                                                            style="background:#f2f2f2; border-bottom:1px solid #fff; text-align:right; padding:2%; border-right: 1px solid #d0d0d0;" colspan="3">
+                                                            <div style="margin-bottom: 10px; border-bottom:1px solid #fff; padding-bottom: 10px;">
+                                                                Họ và tên: <span>[%customer_name%]</span>
+                                                            </div>
+                                                            <div>
+                                                                Số điện thoại: <span>[%customer_phone%]</span>
+                                                            </div>
+                                                        </td>
+                                                        <td width="50%"
+                                                            style="background:#f2f2f2; border-bottom:1px solid #fff; padding: 2% 2% 2% 2%" colspan="3">
+                                                            <div style="margin-bottom: 10px; border-bottom:1px solid #fff; padding-bottom: 10px;">
+                                                                Địa chỉ: <span>[%customer_address%]</span>
+                                                            </div>
+                                                            <div>
+                                                                Email: <span>[%customer_email%]</span>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+
+                                                    <tr>
+                                                        <th colspan="6">
+                                                            <div style="text-align:center; color:#333333; padding:10px 0;background:#dddddd">
+                                                                <i style="text-transform: capitalize;">Ghi chú đơn
+                                                                    hàng</i>
+                                                            </div>
+                                                        </th>
+                                                    </tr>
+                                                    <tr>
+                                                        <td width="100%"
+                                                            style="background:#f2f2f2; border-bottom:1px solid #fff; text-align:center; padding:2%;"
+                                                            colspan="6">
+                                                            [%order_note%]
+                                                        </td>
+                                                    </tr>
+
+                                                    <tr>
+                                                        <th colspan="6">
+                                                            <div style="text-align:center; color:#333333; padding:10px 0;background:#dddddd">
+                                                                <i style="text-transform: capitalize;">Chi tiết đơn
+                                                                    hàng</i>
+                                                            </div>
+                                                        </th>
+                                                    </tr>
+
+                                                    <tr>
+                                                        <th width="10%"
+                                                            style="background:#f2f2f2; border-bottom:1px solid #fff; text-align:left; padding:2%;">
+                                                            STT
+                                                        </th>
+                                                        <th width="40%"
+                                                            style="background:#f2f2f2; border-bottom:1px solid #fff; text-align:left; padding:2%;" colspan="2">
+                                                            Tên sản phẩm
+                                                        </th>
+                                                        <th width="10%"
+                                                            style="background:#f2f2f2; border-bottom:1px solid #fff; text-align:left; padding:2%;">
+                                                            SL
+                                                        </th>
+                                                        <th width="20%"
+                                                            style="background:#f2f2f2; border-bottom:1px solid #fff; text-align:left; padding:2%;">
+                                                            Đơn giá
+                                                        </th>
+                                                        <th width="20%"
+                                                            style="background:#f2f2f2; border-bottom:1px solid #fff; text-align:left; padding:2%;">
+                                                            Thành tiền
+                                                        </th>
+                                                    </tr>
+
+                                                    [%order_detail_list%]
+
+                                                    <tr>
+                                                        <th width="10%"
+                                                            style="background:#eaeaea; border-bottom:1px solid #fff; text-align:left; padding:2%;" colspan="5">
+                                                            Tổng cộng:
+                                                        </th>
+                                                        <th width="20%"
+                                                            style="background:#eaeaea; border-bottom:1px solid #fff; text-align:left; padding:2%;">
+                                                            [%order_subtotal%]
+                                                        </th>
+                                                    </tr>
+                                                    <tr>
+                                                        <th width="10%"
+                                                            style="background:#eaeaea; border-bottom:1px solid #fff; text-align:left; padding:2%;" colspan="5">
+                                                            Tiền vận chuyển:
+                                                        </th>
+                                                        <th width="20%"
+                                                            style="background:#eaeaea; border-bottom:1px solid #fff; text-align:left; padding:2%; color: #000000;">
+                                                            [%shipping_fee%]
+                                                        </th>
+                                                    </tr>
+                                                    <tr>
+                                                        <th width="10%"
+                                                            style="background:#eaeaea; border-bottom:1px solid #fff; text-align:left; padding:2%;" colspan="5">
+                                                            Tổng số tiền thanh toán:
+                                                        </th>
+                                                        <th width="20%"
+                                                            style="background:#eaeaea; border-bottom:1px solid #fff; text-align:left; padding:2%; color: #000000; text-shadow: 1px 1px 0 #777;">
+                                                            [%order_total%]
+                                                        </th>
+                                                    </tr>
+
+                                                </table>
+                                                <br><br>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <div style="text-align:center; margin: 3% 0 0 0">
+                                                    <a href="[%site_url%]"
+                                                       style="background:#80b501; color:#fff; font-weight:bold; padding:10px 20px; text-decoration:none; display:inline-block; text-transform: uppercase;">Tiếp
+                                                        tục mua hàng</a>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td bgcolor="ffffff"
+                                    style="background-color: #ffffff; border-collapse: collapse; padding: 3%;">
+                                    Trân trọng,<br>
+                                    <b>Thorakao - Mỹ phẩm Lan Hảo</b>
+                                </td>
+                            </tr>
+                        </table>
+
+                        <!--/640px container -->
+                    </td>
+                </tr>
+                <tr>
+                    <td style="font-size: 10px;color: #707070;" align="center">
+                        <table border="0" cellpadding="0" cellspacing="0" class="container"
+                               style="border-spacing: 0; max-width: 640px; mso-table-lspace: 0; mso-table-rspace: 0;"
+                               width="640">
+                            <tr>
+                                <td style="border-collapse: collapse; padding: 2%;">
+                                    <table cellpadding="0" cellspacing="0" border="0" valign="top"
+                                           style="border-spacing: 0; mso-table-lspace: 0; mso-table-rspace: 0; "
+                                           width="100%">
+                                        <tr>
+                                            <td valign="top" style="border-collapse: collapse; padding-right: 3%"
+                                                width="70%">
+                                                Công ty TNHH sản xuất mỹ phẩm Lan Hảo<br>
+                                                241 bis Cách mạng tháng tám, quận 3, tphcm - Hotline: (08) 383 27381 -
+                                                Email: Thorakao@thorakaovn.com<br>
+                                            </td>
+                                            <td style="border-collapse: collapse;" align="right" valign="top"
+                                                width="30%">
+                                                <table cellpadding="0" cellspacing="0" border="0" valign="top"
+                                                       style="border-spacing: 0; mso-table-lspace: 0; mso-table-rspace: 0;">
+                                                    <tr>
+                                                        <td colspan="3" align="center">Kết nối với Thorakao</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td style="border-collapse: collapse;">
+                                                            <a href="https://www.facebook.com/thorakaovn"
+                                                               style="color: #ec407c; text-decoration: none;">
+                                                                <img src="http://www.marry.vn/email/v2/icon-fb.png?v2"
+                                                                     alt="fb" width="32"
+                                                                     style="-ms-interpolation-mode: bicubic; border: 0; height: auto; line-height: 100%; max-width: 100%; outline: 0; text-decoration: none;">
+                                                            </a>
+                                                        </td>
+                                                        <td style="border-collapse: collapse;">
+                                                            <a href="https://www.youtube.com/c/thorakaovn"
+                                                               style="color: #ec407c; text-decoration: none;">
+                                                                <img src="http://www.marry.vn/email/v2/icon-youtube.png?v2"
+                                                                     alt="y" width="32"
+                                                                     style="-ms-interpolation-mode: bicubic; border: 0; height: auto; line-height: 100%; max-width: 100%; outline: 0; text-decoration: none;">
+                                                            </a>
+                                                        </td>
+                                                        <td style="border-collapse: collapse;">
+                                                            <a href="https://www.pinterest.com/thorakaovn/"
+                                                               style="color: #ec407c; text-decoration: none;">
+                                                                <img src="http://www.marry.vn/email/v2/icon-pin.png?v2"
+                                                                     alt="p" width="32"
+                                                                     style="-ms-interpolation-mode: bicubic; border: 0; height: auto; line-height: 100%; max-width: 100%; outline: 0; text-decoration: none;">
+                                                            </a>
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                            </td>
+                                        </tr>
+
+                                    </table>
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+</table>
+<!--/100% background wrapper-->
+</body>
+</html>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module type="WEB_MODULE" version="4">
+  <component name="NewModuleRootManager">
+    <content url="file://$MODULE_DIR$">
+      <sourceFolder url="file://$MODULE_DIR$/wp-content/plugins/thorakao-v1" isTestSource="false" />
+      <excludeFolder url="file://$MODULE_DIR$/wp-content/plugins/akismet" />
+      <excludeFolder url="file://$MODULE_DIR$/wp-content/plugins/custom-post-type-ui" />
+      <excludeFolder url="file://$MODULE_DIR$/wp-content/themes/twentyfifteen" />
+      <excludeFolder url="file://$MODULE_DIR$/wp-content/themes/twentyfourteen" />
+      <excludeFolder url="file://$MODULE_DIR$/wp-content/themes/twentysixteen" />
+    </content>
+    <orderEntry type="inheritedJdk" />
+    <orderEntry type="sourceFolder" forTests="false" />
+  </component>
+</module>

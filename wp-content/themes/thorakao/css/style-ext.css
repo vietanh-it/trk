@@ -1,0 +1,262 @@
+.pre-footer {
+    background: url("../images/polygon.jpg");
+}
+
+.pre-footer .title, .produc-detail__price {
+    color: #e08b04;
+    text-shadow: none;
+}
+
+.top-left-menu {
+    margin: 50px 0 0;
+}
+
+.lang-item a {
+    text-transform: uppercase;
+}
+
+.news__price, .product__price {
+    text-shadow: 1px 1px 0 #777;
+    font-size: 18px;
+    color: #ff9e02;
+}
+
+.news__title, .product__title {
+    text-transform: capitalize;
+}
+
+.news__img img, .product__img img, .product__wrapper img {
+    border: 1px solid #dddddd;
+}
+
+.view-detail.btn, .btn.add-to-cart {
+    text-shadow: none;
+}
+
+.product__img:hover .add-to-cart, .product__img:hover .view-detail {
+    background: #ffffff;
+}
+
+/*.home-news-image:hover:before {*/
+/*content: '';*/
+/*background: rgba(255, 255, 255, 0.2);*/
+/*width: 100%;*/
+/*height: 100%;*/
+/*position: absolute;*/
+/*cursor: pointer;*/
+/*}*/
+
+.round-form-input {
+    -webkit-border-radius: 50px;
+    -moz-border-radius: 50px;
+    border-radius: 50px;
+    border: 1px solid #666;
+    padding: 4px 15px;
+}
+
+.quantity-input {
+    width: 100px !important;
+    margin-left: 10px;
+}
+
+.no-text-decoration, .no-text-decoration:hover, .no-text-decoration:focus {
+    text-decoration: none;
+    margin-bottom: 20px;
+    display: block;
+    overflow: hidden;
+}
+
+.top-left-menu {
+    margin-top: 65px;
+}
+
+.cart-top {
+    top: 35px;
+}
+
+/*Wordpress required CSS Clasess*/
+
+.alignnone {
+    margin: 5px 20px 20px 0;
+}
+
+.aligncenter,
+div.aligncenter {
+    display: block;
+    margin: 5px auto 5px auto;
+}
+
+.alignright {
+    float: right;
+    margin: 5px 0 20px 20px;
+}
+
+.alignleft {
+    float: left;
+    margin: 5px 20px 20px 0;
+}
+
+a img.alignright {
+    float: right;
+    margin: 5px 0 20px 20px;
+}
+
+a img.alignnone {
+    margin: 5px 20px 20px 0;
+}
+
+a img.alignleft {
+    float: left;
+    margin: 5px 20px 20px 0;
+}
+
+a img.aligncenter {
+    display: block;
+    margin-left: auto;
+    margin-right: auto
+}
+
+.wp-caption {
+    background: #fff;
+    border: 1px solid #f0f0f0;
+    max-width: 96%; /* Image does not overflow the content area */
+    padding: 5px 3px 10px;
+    text-align: center;
+}
+
+.wp-caption.alignnone {
+    margin: 5px 20px 20px 0;
+}
+
+.wp-caption.alignleft {
+    margin: 5px 20px 20px 0;
+}
+
+.wp-caption.alignright {
+    margin: 5px 0 20px 20px;
+}
+
+.wp-caption img {
+    border: 0 none;
+    height: auto;
+    margin: 0;
+    max-width: 98.5%;
+    padding: 0;
+    width: auto;
+}
+
+.wp-caption p.wp-caption-text {
+    font-size: 11px;
+    line-height: 17px;
+    margin: 0;
+    padding: 0 4px 5px;
+}
+
+/* Text meant only for screen readers. */
+.screen-reader-text {
+    clip: rect(1px, 1px, 1px, 1px);
+    position: absolute !important;
+    height: 1px;
+    width: 1px;
+    overflow: hidden;
+}
+
+.screen-reader-text:focus {
+    background-color: #f1f1f1;
+    border-radius: 3px;
+    box-shadow: 0 0 2px 2px rgba(0, 0, 0, 0.6);
+    clip: auto !important;
+    color: #21759b;
+    display: block;
+    font-size: 14px;
+    font-size: 0.875rem;
+    font-weight: bold;
+    height: auto;
+    left: 5px;
+    line-height: normal;
+    padding: 15px 23px 14px;
+    text-decoration: none;
+    top: 5px;
+    width: auto;
+    z-index: 100000; /* Above WP toolbar. */
+}
+
+.main-content img {
+    max-width: 100%;
+    height: auto;
+}
+
+.checkout-info-form input {
+    min-width: 305px;
+}
+
+.cart-btn-mobile {
+    display: none;
+}
+
+@media screen and (max-width: 480px) {
+    .top-left-menu, .cart-top, .main_nav form, .frm_filter {
+        display: none;
+    }
+
+    .cart-btn-mobile {
+        display: inline-block;
+    }
+
+    .main_nav li {
+        padding-left: 15px;
+    }
+
+    .main_nav .navbar-nav {
+        margin-top: 0;
+    }
+
+    .pre-footer .raw-logo, .pre-footer .title {
+        text-align: center;
+    }
+
+    .pre-footer .raw-logo img {
+        position: static;
+        top: 0;
+    }
+
+    .pre-footer .frm-newsletter input[type=text] {
+        width: 100%;
+    }
+
+    .frm-newsletter {
+        text-align: center;
+    }
+
+    .frm-newsletter button {
+        margin-top: 15px;
+    }
+
+    .sidebar-scroll.scrolling, .sidebar-scroll.scrolling.stop {
+        position: relative;
+        top: 0 !important;
+        margin-bottom: 80px;
+    }
+
+    .product-list {
+        padding: 0 30px;
+    }
+
+    .cart-btn-mobile {
+        position: relative;
+        top: 15px;
+        left: 15px;
+    }
+
+    .payment_method_wrapper > div:first-child {
+        margin-bottom: 30px;
+    }
+
+    .delivery-option .row {
+        margin-right: 0;
+    }
+
+    .detail {
+        padding: 0 15px !important;
+    }
+}

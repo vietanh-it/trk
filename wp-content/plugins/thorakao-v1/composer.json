@@ -1,0 +1,23 @@
+{
+    "name": "thorakao-v1",
+    "description": "Thorakao ver.1",
+    "authors": [
+        {
+            "name": "Viet Anh",
+            "email": "vietanhtran.it@gmail.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "TVA\\": "app/"
+        },
+        "files": [
+            "app/Support/helpers.php"
+        ]
+    },
+    "require": {
+        "aura/session": "^2.0",
+        "vlucas/valitron": "^1.2",
+        "tareq1988/wp-eloquent": "dev-master"
+    }
+}

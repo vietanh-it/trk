@@ -14,7 +14,8 @@ $theo_cong_dung = $post_ctrl->getTermList('theo-cong-dung');
 <div class="pre-footer">
     <div class="container">
         <div class="row">
-            <div class="col-md-2 col-xs-12 raw-logo"><img src="<?php echo THEME_URL; ?>/images/logo-raw-white.png" width="120">
+            <div class="col-md-2 col-xs-12 raw-logo">
+                <img src="<?php echo THEME_URL; ?>/images/logo-raw-white.png" width="120">
             </div>
             <div style="line-height: 35px;"
                  class="col-md-3 col-xs-12 title text-right"><?php echo (pll_current_language() == 'vi') ? 'Đăng ký nhận tin qua email' : 'Register for newsletter'; ?></div>
@@ -120,7 +121,7 @@ $theo_cong_dung = $post_ctrl->getTermList('theo-cong-dung');
             <div class="col-md-5 company_info text-center">
                 <div style="padding-bottom: 10px;"><b>Copyright &copy; 2016 By Thorakao, All rights reserved</b></div>
                 <div>Công ty TNHH sản xuất mỹ phẩm Lan Hảo<br>241 bis Cách mạng tháng tám, quận 3, tphcm<br>Hotline:
-                    (08) 383 27381<br>Email: Thorakao@thorakaovn.com
+                     (08) 383 27381<br>Email: Thorakao@thorakaovn.com
                 </div>
             </div>
             <div class="col-md-4 footer-bottom-logos">

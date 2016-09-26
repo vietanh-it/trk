@@ -103,7 +103,8 @@ get_header(); ?>
                                 <b class="produc-detail__status ml-10">
                                     <?php if (pll_current_language() == 'vi') {
                                         echo ($product_detail->status == 1) ? 'Còn hàng' : 'Hết hàng';
-                                    } else {
+                                    }
+                                    else {
                                         echo ($product_detail->status == 1) ? 'Available' : 'Sold out';
                                     } ?>
                                 </b>
@@ -127,8 +128,8 @@ get_header(); ?>
                                                 <label style="position: relative; cursor:pointer;">
                                                     <input type="radio" value="<?php echo $color; ?>" name="color"
                                                            style="position: absolute; top: 13%; left: 28%; cursor: pointer;">
-                                        <span
-                                            style="height: 30px; width: 30px; -webkit-border-radius: 5px;-moz-border-radius: 5px;border-radius: 5px; background: <?php echo $color; ?>; display: inline-block;">
+                                                    <span
+                                                        style="height: 30px; width: 30px; -webkit-border-radius: 5px;-moz-border-radius: 5px;border-radius: 5px; background: <?php echo $color; ?>; display: inline-block;">
                                         </span>
                                                 </label>
                                             <?php }
@@ -195,9 +196,9 @@ get_header(); ?>
                                     <div class="row">
                                         <div class="col-xs-12">
                                             <b>THORAKAO đảm bảo:</b><br>100% sản phẩm được sản xuất
-                                            tại Việt Nam<br>100% không có Corticoid<br>100% không có Isobutyl
-                                            Parabens<br><br><b>Lưu ý khi sử dụng:</b><br>Bảo quản nơi khô thoáng.<br>Tránh
-                                            xa tầm tay trẻ em.<br>Tránh vây vào mắt.<br>Kích ứng da không đáng kể.
+                                                                        tại Việt Nam<br>100% không có Corticoid<br>100% không có Isobutyl
+                                                                        Parabens<br><br><b>Lưu ý khi sử dụng:</b><br>Bảo quản nơi khô thoáng.<br>Tránh
+                                                                        xa tầm tay trẻ em.<br>Tránh vây vào mắt.<br>Kích ứng da không đáng kể.
                                         </div>
                                     </div>
                                 </div>
@@ -231,5 +232,81 @@ get_header(); ?>
             </div>
         </div>
     </div>
+
+    <script>
+
+        var $ = jQuery.noConflict();
+        $(document).ready(function () {
+
+            $('.form-detail').validate({
+                rules: {
+                    quantity: {
+                        required: true,
+                        min: 1
+                    }
+                },
+                messages: {
+                    quantity: {
+                        requrired: "Vui lòng chọn số lượng muốn mua.",
+                        min: "Vui lòng chọn số lượng muốn mua."
+                    }
+                },
+                errorPlacement: function (error, element) {
+                    element.attr('data-original-title', error.text())
+                        .attr('data-toggle', 'tooltip')
+                        .attr('data-placement', 'top');
+                    $(element).tooltip('show');
+                },
+                unhighlight: function (element) {
+                    $(element)
+                        .removeAttr('data-toggle')
+                        .removeAttr('data-original-title')
+                        .removeAttr('data-placement')
+                        .removeClass('error');
+                    $(element).unbind("tooltip");
+                },
+                submitHandler: function (form) {
+                    var obj = $(form);
+                    $.ajax({
+                        url: ajaxurl,
+                        type: "post",
+                        dataType: 'json',
+                        data: obj.serialize(),
+                        beforeSend: function () {
+                            $('input, button[type=submit]', obj).attr('disabled', true).css({'opacity': '0.5'});
+                        },
+                        success: function (data) {
+                            $('input, button[type=submit]', obj).attr('disabled', false).css({'opacity': 1});
+                            if (data.status == 'success') {
+                                swal({
+                                        title: data.message,
+                                        text: "<p style='font-weight: bold;color: #80b501'>Bạn có muốn xem giỏ hàng?</p>",
+                                        type: "success",
+                                        showCancelButton: true,
+                                        confirmButtonColor: "#80b501",
+                                        confirmButtonText: "Xem giỏ hàng",
+                                        closeOnConfirm: false,
+                                        cancelButtonText: "Mua tiếp",
+                                        html: true
+                                    },
+                                    function (is_confirm) {
+                                        if (is_confirm) {
+                                            window.location.href = data.data.url;
+                                        } else {
+                                            window.location.reload();
+                                        }
+                                    });
+                            }
+                            else {
+                                swal({"title": "Error", "text": data.message, "type": "error", html: true});
+                            }
+                        }
+                    });
+                }
+            });
+
+        });
+
+    </script>
 
 <?php get_footer();

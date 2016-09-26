@@ -351,6 +351,56 @@ else {
     var $ = jQuery.noConflict();
     $(document).ready(function () {
 
+        $(document).delegate('.add-to-cart', 'click', function (e) {
+            e.preventDefault();
+            var obj = $(this);
+
+            var product_id = obj.attr('data-product-id');
+            console.log(product_id);
+            $.ajax({
+                url: ajaxurl,
+                type: "post",
+                dataType: 'json',
+                data: {
+                    action: "trk_ajax_handler_order",
+                    method: "AddToCart",
+                    product_id: product_id,
+                    quantity: 1
+                },
+                beforeSend: function () {
+                    obj.attr('disabled', true).css({'opacity': '0.5'});
+                },
+                success: function (data) {
+                    obj.attr('disabled', false).css({'opacity': 1});
+                    if (data.status == 'success') {
+                        swal({
+                                title: data.message,
+                                text: "<p style='font-weight: bold;color: #80b501'>Bạn có muốn xem giỏ hàng?</p>",
+                                type: "success",
+                                showCancelButton: true,
+                                confirmButtonColor: "#80b501",
+                                confirmButtonText: "Xem giỏ hàng",
+                                closeOnConfirm: false,
+                                cancelButtonText: "Mua tiếp",
+                                html: true
+                            },
+                            function (is_confirm) {
+                                if (is_confirm) {
+                                    window.location.href = data.data.url;
+                                } else {
+                                    window.location.reload();
+                                }
+                            }
+                        );
+
+                    }
+                    else {
+                        swal({"title": "Error", "text": data.message, "type": "error", html: true});
+                    }
+                }
+            });
+        });
+
         <?php if ($is_opening) { ?>
 
         $.ajax({

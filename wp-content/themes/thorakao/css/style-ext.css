@@ -259,4 +259,12 @@ a img.aligncenter {
     .detail {
         padding: 0 15px !important;
     }
+
+    .sidebar-scroll {
+        display: none;
+    }
+
+    .quantity-input {
+        margin: 0 auto;
+    }
 }

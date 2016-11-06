@@ -33,12 +33,7 @@ $product_ctrl = \TVA\Controllers\ProductController::init();
     <script src="<?php echo get_template_directory_uri(); ?>/js/html5.js"></script>
     <![endif]-->
 
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.1.6/assets/owl.carousel.min.css"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.css">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/magnific-popup.js/1.1.0/magnific-popup.min.css"/>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.min.css"/>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.css"/>
     <?php wp_head(); ?>
     <link rel="apple-touch-icon" sizes="57x57" href="/favicon.png">
     <link rel="apple-touch-icon" sizes="60x60" href="/favicon.png">
@@ -69,14 +64,11 @@ $product_ctrl = \TVA\Controllers\ProductController::init();
     <?php $menu = 'home';
     if (is_page_template('templates/all-product.php') || is_singular('product')) {
         $menu = 'products';
-    }
-    elseif (is_page_template('templates/recipe.php') || is_single('recipe')) {
+    } elseif (is_page_template('templates/recipe.php') || is_single('recipe')) {
         $menu = 'recipe';
-    }
-    elseif (is_page_template('templates/beauty.php') || is_single('beauty')) {
+    } elseif (is_page_template('templates/beauty.php') || is_single('beauty')) {
         $menu = 'beauty';
-    }
-    elseif (is_page(['gioi-thieu', 'about-us'])) {
+    } elseif (is_page(['gioi-thieu', 'about-us'])) {
         $menu = 'aboutus';
     } ?>
 
@@ -90,50 +82,28 @@ $product_ctrl = \TVA\Controllers\ProductController::init();
     <!--@formatter:off-->
     <link href='https://fonts.googleapis.com/css?family=Roboto:400,400italic,300,300italic,700&subset=latin,vietnamese' rel='stylesheet' type='text/css'>
     <script>
-        (function (i, s, o, g, r, a, m) {
-            i['GoogleAnalyticsObject'] = r;
-            i[r] = i[r] || function () {
-                    (i[r].q = i[r].q || []).push(arguments)
-                }, i[r].l = 1 * new Date();
-            a = s.createElement(o),
-                m = s.getElementsByTagName(o)[0];
-            a.async = 1;
-            a.src = g;
-            m.parentNode.insertBefore(a, m)
-        })(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
 
-        ga('create', 'UA-74444133-2', 'thorakao.com');
-        ga('require', 'displayfeatures');
-        ga('send', 'pageview');
+      ga('create', 'UA-74444133-2', 'thorakao.com');
+      ga('require', 'displayfeatures');
+      ga('send', 'pageview');
 
     </script>
 
     <!-- Facebook Pixel Code -->
-    <script>
-        !function (f, b, e, v, n, t, s) {
-            if (f.fbq)return;
-            n = f.fbq = function () {
-                n.callMethod ?
-                    n.callMethod.apply(n, arguments) : n.queue.push(arguments)
-            };
-            if (!f._fbq)f._fbq = n;
-            n.push = n;
-            n.loaded = !0;
-            n.version = '2.0';
-            n.queue = [];
-            t = b.createElement(e);
-            t.async = !0;
-            t.src = v;
-            s = b.getElementsByTagName(e)[0];
-            s.parentNode.insertBefore(t, s)
-        }(window,
-            document, 'script', 'https://connect.facebook.net/en_US/fbevents.js');
+        <script>
+        !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+        n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
+        n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
+        t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
+        document,'script','https://connect.facebook.net/en_US/fbevents.js');
 
         fbq('init', '1301984116497345');
         fbq('track', "PageView");</script>
-    <noscript>
-        <img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=1301984116497345&ev=PageView&noscript=1"/>
-    </noscript>
+        <noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=1301984116497345&ev=PageView&noscript=1"/></noscript>
     <!-- End Facebook Pixel Code -->
     <!--@formatter:on-->
 
@@ -141,25 +111,20 @@ $product_ctrl = \TVA\Controllers\ProductController::init();
 <body <?php body_class(); ?>>
 <!--[if lt IE 10]>
 <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade
-                                                                                                                       your browser</a> to improve your experience.
-</p>
+    your browser</a> to improve your experience.</p>
 <![endif]-->
 <header>
-
     <div class="container">
         <div class="row">
-
             <div class="col-md-4">
                 <ul class="nav navbar-nav top-left-menu">
                     <?php pll_the_languages(['display_names_as' => 'slug']); ?>
                 </ul>
             </div>
-
             <div class="col-md-4 text-center">
                 <div class="logo"><a href="<?php echo WP_SITEURL; ?>" title="logo"><img
                             src="<?php echo THEME_URL; ?>/images/logo.png" alt="logo" height="100"></a></div>
             </div>
-
             <div class="col-md-4">
                 <div class="cart-top">
                     <a href="<?php echo WP_SITEURL . (pll_current_language('slug') == 'vi') ? '/gio-hang' : '/en/shopping-cart'; ?>"
@@ -187,7 +152,6 @@ $product_ctrl = \TVA\Controllers\ProductController::init();
 
                                         <td><img src="<?php echo $product_info->featured_image ?>" width="60"
                                                  height="60"></td>
-
                                         <td>
                                             <div><i><?php echo $product_info->post_title ?></i></div>
                                             <div style="font-weight: bold;">
@@ -202,13 +166,9 @@ $product_ctrl = \TVA\Controllers\ProductController::init();
                                                 </span>
                                             </div>
                                         </td>
-
-                                        <td>
-                                            <a href="javascript:void(0)" data-delete-product-cart="<?php echo $product_info->ID; ?>">
-                                                <i class="fa fa-trash"></i>
-                                            </a>
-                                        </td>
-
+                                        <td><a href="javascript:void(0)"
+                                               data-delete-product-cart="<?php echo $product_info->ID; ?>"><i
+                                                    class="fa fa-trash"></i></a></td>
                                     </tr>
 
                                 <?php }
@@ -232,10 +192,8 @@ $product_ctrl = \TVA\Controllers\ProductController::init();
                     </div>
                 </div>
             </div>
-
         </div>
     </div>
-
     <div class="menu-wrapper navbar navbar-default">
         <div class="container">
             <div class="navbar-header">
@@ -267,8 +225,7 @@ $product_ctrl = \TVA\Controllers\ProductController::init();
                         </div>
                         <button type="submit" class="btn btn-primary"><i class="fa fa-search"></i></button>
                     </form>
-                <?php }
-                else { ?>
+                <?php } else { ?>
                     <ul class="nav navbar-nav">
                         <li data-menu="home"><a href="<?php echo WP_SITEURL . '/en/'; ?>">Home</a></li>
                         <li data-menu="products"><a href="<?php echo WP_SITEURL . '/en/products'; ?>">All Product</a>
@@ -287,66 +244,4 @@ $product_ctrl = \TVA\Controllers\ProductController::init();
             </div>
         </div>
     </div>
-
 </header>
-
-<script>
-    var $ = jQuery.noConflict();
-    $(document).ready(function ($) {
-
-        //Delete product row at shopping cart
-        $(document).delegate('[data-delete-product-cart]', 'click', function (e) {
-
-            e.preventDefault();
-            var obj = $(this);
-
-            var product_id = obj.data('delete-product-cart');
-            $.ajax({
-                url: ajaxurl,
-                type: "post",
-                dataType: 'json',
-                data: {
-                    action: "trk_ajax_handler_order",
-                    method: "DeleteProductCart",
-                    product_id: product_id
-                },
-                beforeSend: function () {
-                    obj.attr('disabled', true).css({'opacity': '0.5'});
-                    $('.btn-submit-checkout').attr('disabled', true).css({'opacity': '0.5'});
-                },
-                success: function (data) {
-                    obj.attr('disabled', false).css({'opacity': 1});
-                    $('.btn-submit-checkout').attr('disabled', false).css({'opacity': 1});
-                    if (data.status == 'success') {
-
-                        obj.parents('tr').remove();
-
-                        $('.cart-total-item').html(data.data.total_quantity);
-                        $('.shipping-fee').html(data.data.shipping_fee);
-                        $('.order-total-quantity').html(data.data.total_quantity);
-                        $('.cart-total .amount, .cart-total-value').html(data.data.subtotal);
-
-                        $('[data-order-total]').data('order-total', data.data.subtotal_raw).html(data.data.subtotal);
-                        $('.order-final-total').html(data.data.total);
-
-                        $('[data-pid="' + product_id + '"]').remove();
-
-                    }
-                    else {
-                        swal({"title": "Error", "text": data.message, "type": "error", html: true});
-                    }
-                }
-            });
-            // End Ajax
-
-        });
-
-
-        // Menu
-        $('[data-toggle]').on('click', function () {
-            var objClass = $(this).data('toggle');
-            $('.' + objClass).slideToggle();
-        });
-
-    });
-</script>

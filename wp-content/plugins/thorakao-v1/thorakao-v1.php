@@ -29,7 +29,6 @@ function trk_load()
     //call hooks
     TVA\Hooks\BackendUI::init();
     \TVA\Hooks\Rewrite::init();
-    // \TVA\Hooks\MenuSettings::init();
 
     \TVA\Controllers\OrdersController::init();
     \TVA\Controllers\PostController::init();

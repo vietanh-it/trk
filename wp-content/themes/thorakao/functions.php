@@ -40,20 +40,20 @@ function setupScriptsStyles()
 
     if (!is_admin()) {
         // comment out the next two lines to load the local copy of jQuery
-        // wp_deregister_script('jquery');
-        // wp_register_script('jquery', 'http://ajax.googleapis.com/ajax/libs/jquery/1.8.1/jquery.min.js', false, '1.8.1');
-        // wp_enqueue_script('jquery');
+        wp_deregister_script('jquery');
+        wp_register_script('jquery', 'http://ajax.googleapis.com/ajax/libs/jquery/1.8.1/jquery.min.js', false, '1.8.1');
+        wp_enqueue_script('jquery');
     }
 
     // Styles
     wp_enqueue_style('thorakao-original-style', THEME_URL . '/style.css', [], $version);
-    // wp_enqueue_style('thorakao-plugin', THEME_URL . '/css/plugin.css', [], $version);
+    wp_enqueue_style('thorakao-plugin', THEME_URL . '/css/plugin.css', [], $version);
     wp_enqueue_style('thorakao-style', THEME_URL . '/css/main.css', [], $version);
     wp_enqueue_style('thorakao-style-ext', THEME_URL . '/css/style-ext.css', [], $version);
 
 
     // Scripts
-    // wp_enqueue_script('thorakao-plugins', THEME_URL . '/js/plugins.js', ['jquery'], $version, true);
+    wp_enqueue_script('thorakao-plugins', THEME_URL . '/js/plugins.js', ['jquery'], $version, true);
     wp_enqueue_script('thorakao-scripts', THEME_URL . '/js/main-source.js', ['jquery'], $version, true);
     // wp_enqueue_script('jquery-scrollstop', THEME_URL . '/js/jquery.scrollstop.js', ['jquery'], $version, true);
     // wp_enqueue_script('jquery-lazyload', THEME_URL . '/js/jquery.lazyload.js', ['jquery'], $version, true);

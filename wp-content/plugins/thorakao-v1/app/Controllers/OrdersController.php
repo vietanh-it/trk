@@ -1,6 +1,7 @@
 <?php
 namespace TVA\Controllers;
 
+use TVA\Models\GHN;
 use TVA\Models\Location;
 use TVA\Models\Orders;
 
@@ -63,7 +64,8 @@ class OrdersController extends _BaseController
                 $current_quantity = $_SESSION['cart'][$product_id]['quantity'];
                 if (!empty($_POST['plus_quantity'])) {
                     $new_quantity = intval($quantity);
-                } else {
+                }
+                else {
                     $new_quantity = intval($current_quantity) + $quantity;
                 }
 
@@ -71,7 +73,8 @@ class OrdersController extends _BaseController
                     'quantity'   => $new_quantity,
                     'product_id' => $product_id,
                 ];
-            } else {
+            }
+            else {
                 $_SESSION['cart'][$product_id] = [
                     'quantity'   => $quantity,
                     'product_id' => $product_id,
@@ -136,7 +139,8 @@ class OrdersController extends _BaseController
             if ($new_subtotal > 0) {
                 $shipping_fee = $this->calculateShippingFee($_SESSION['city_id'], $_SESSION['district_id'],
                     $new_subtotal);
-            } else {
+            }
+            else {
                 $_SESSION['shipping_fee'] = $shipping_fee = 0;
             }
 
@@ -207,7 +211,7 @@ class OrdersController extends _BaseController
 
 
                 //Order info
-				$subtotal = $_SESSION['subtotal'];
+                $subtotal = $_SESSION['subtotal'];
                 $shipping_fee = $this->calculateShippingFee($data['city_id'], $data['district_id'], $subtotal);
                 $total = $subtotal + $shipping_fee;
 
@@ -243,6 +247,7 @@ class OrdersController extends _BaseController
 
                 $data['url'] = pll_current_language() == 'vi' ? WP_SITEURL : WP_SITEURL . '/en/';
 
+                // Send email
                 $this->sendEmailOrder($id);
 
                 $this->clearStaticCache();
@@ -250,7 +255,8 @@ class OrdersController extends _BaseController
                     'status' => 'success',
                     'data'   => $data
                 ];
-            } else {
+            }
+            else {
                 $result = [
                     'status'  => 'error',
                     'message' => 'Đã xảy ra lỗi, vui lòng thử lại'
@@ -309,7 +315,8 @@ class OrdersController extends _BaseController
 
         if (WP_DEBUG) {
             return wp_mail('vietanhtran.it@gmail.com', $subject, $content, 'Content-type: text/html');
-        } else {
+        }
+        else {
             wp_mail('thorakaoshop@thorakaovn.com', $subject, $content, 'Content-type: text/html');
             //wp_mail('vietanhtran.it@gmail.com', $subject, $content, 'Content-type: text/html');
             return wp_mail($order_info->email, $subject, $content, 'Content-type: text/html');
@@ -341,36 +348,46 @@ class OrdersController extends _BaseController
                 'status'  => 'error',
                 'message' => 'Đã xảy ra lỗi, vui lòng thử lại'
             ];
-        } else {
+        }
+        else {
             if ($city_id == 1) {
 
                 // TP HCM
                 if ($subtotal >= 200000) {
                     $shipping_fee = 0;
-                } elseif ($subtotal >= 101000) {
+                }
+                elseif ($subtotal >= 101000) {
                     $district_type = $this->getDistrictType($district_id);
                     if ($district_type == 'ngoai-thanh-1') {
                         $shipping_fee = 30000;
-                    } elseif ($district_type == 'ngoai-thanh-2') {
-                        $shipping_fee = 40000;
-                    } elseif ($district_type == 'noi-thanh') {
-                        $shipping_fee = 20000;
-                    } else {
+                    }
+                    elseif ($district_type == 'ngoai-thanh-2') {
                         $shipping_fee = 40000;
                     }
-                } else {
+                    elseif ($district_type == 'noi-thanh') {
+                        $shipping_fee = 20000;
+                    }
+                    else {
+                        $shipping_fee = 40000;
+                    }
+                }
+                else {
                     $district_type = $this->getDistrictType($district_id);
                     if ($district_type == 'ngoai-thanh-1') {
                         $shipping_fee = 25000;
-                    } elseif ($district_type == 'ngoai-thanh-2') {
+                    }
+                    elseif ($district_type == 'ngoai-thanh-2') {
                         $shipping_fee = 35000;
-                    } elseif ($district_type == 'noi-thanh') {
+                    }
+                    elseif ($district_type == 'noi-thanh') {
                         $shipping_fee = 15000;
-                    } else {
+                    }
+                    else {
                         $shipping_fee = 35000;
                     }
                 }
-            } else {
+            }
+            else {
 
                 $location_model = Location::init();
                 $city = $location_model->getCityBy('id', $city_id);
@@ -378,34 +395,46 @@ class OrdersController extends _BaseController
                 // City khác
                 if ($subtotal >= 500000) {
                     $shipping_fee = 0;
-                } elseif ($subtotal >= 251000) {
+                }
+                elseif ($subtotal >= 251000) {
                     if ($city->type == 'cung-mien') {
                         $shipping_fee = 45000;
-                    } elseif ($city->type == 'lien-mien') {
+                    }
+                    elseif ($city->type == 'lien-mien') {
                         $shipping_fee = 50000;
-                    } elseif ($city->type == 'khac') {
-                        $shipping_fee = 60000;
-                    } else {
+                    }
+                    elseif ($city->type == 'khac') {
                         $shipping_fee = 60000;
                     }
-                } elseif ($subtotal >= 101000) {
+                    else {
+                        $shipping_fee = 60000;
+                    }
+                }
+                elseif ($subtotal >= 101000) {
                     if ($city->type == 'cung-mien') {
                         $shipping_fee = 40000;
-                    } elseif ($city->type == 'lien-mien') {
+                    }
+                    elseif ($city->type == 'lien-mien') {
                         $shipping_fee = 45000;
-                    } elseif ($city->type == 'khac') {
-                        $shipping_fee = 55000;
-                    } else {
+                    }
+                    elseif ($city->type == 'khac') {
                         $shipping_fee = 55000;
                     }
-                } else {
+                    else {
+                        $shipping_fee = 55000;
+                    }
+                }
+                else {
                     if ($city->type == 'cung-mien') {
                         $shipping_fee = 30000;
-                    } elseif ($city->type == 'lien-mien') {
+                    }
+                    elseif ($city->type == 'lien-mien') {
                         $shipping_fee = 35000;
-                    } elseif ($city->type == 'khac') {
+                    }
+                    elseif ($city->type == 'khac') {
                         $shipping_fee = 45000;
-                    } else {
+                    }
+                    else {
                         $shipping_fee = 45000;
                     }
                 }
@@ -433,36 +462,46 @@ class OrdersController extends _BaseController
 
         if (empty($city_id)) {
             $result = 0;
-        } else {
+        }
+        else {
             if ($city_id == 1) {
 
                 // TP HCM
                 if ($subtotal >= 200000) {
                     $shipping_fee = 0;
-                } elseif ($subtotal >= 101000) {
+                }
+                elseif ($subtotal >= 101000) {
                     $district_type = $this->getDistrictType($district_id);
                     if ($district_type == 'ngoai-thanh-1') {
                         $shipping_fee = 30000;
-                    } elseif ($district_type == 'ngoai-thanh-2') {
-                        $shipping_fee = 40000;
-                    } elseif ($district_type == 'noi-thanh') {
-                        $shipping_fee = 20000;
-                    } else {
+                    }
+                    elseif ($district_type == 'ngoai-thanh-2') {
                         $shipping_fee = 40000;
                     }
-                } else {
+                    elseif ($district_type == 'noi-thanh') {
+                        $shipping_fee = 20000;
+                    }
+                    else {
+                        $shipping_fee = 40000;
+                    }
+                }
+                else {
                     $district_type = $this->getDistrictType($district_id);
                     if ($district_type == 'ngoai-thanh-1') {
                         $shipping_fee = 25000;
-                    } elseif ($district_type == 'ngoai-thanh-2') {
+                    }
+                    elseif ($district_type == 'ngoai-thanh-2') {
                         $shipping_fee = 35000;
-                    } elseif ($district_type == 'noi-thanh') {
+                    }
+                    elseif ($district_type == 'noi-thanh') {
                         $shipping_fee = 15000;
-                    } else {
+                    }
+                    else {
                         $shipping_fee = 35000;
                     }
                 }
-            } else {
+            }
+            else {
 
                 $location_model = Location::init();
                 $city = $location_model->getCityBy('id', $city_id);
@@ -470,34 +509,46 @@ class OrdersController extends _BaseController
                 // City khác
                 if ($subtotal >= 500000) {
                     $shipping_fee = 0;
-                } elseif ($subtotal >= 251000) {
+                }
+                elseif ($subtotal >= 251000) {
                     if ($city->type == 'cung-mien') {
                         $shipping_fee = 45000;
-                    } elseif ($city->type == 'lien-mien') {
+                    }
+                    elseif ($city->type == 'lien-mien') {
                         $shipping_fee = 50000;
-                    } elseif ($city->type == 'khac') {
-                        $shipping_fee = 60000;
-                    } else {
+                    }
+                    elseif ($city->type == 'khac') {
                         $shipping_fee = 60000;
                     }
-                } elseif ($subtotal >= 101000) {
+                    else {
+                        $shipping_fee = 60000;
+                    }
+                }
+                elseif ($subtotal >= 101000) {
                     if ($city->type == 'cung-mien') {
                         $shipping_fee = 40000;
-                    } elseif ($city->type == 'lien-mien') {
+                    }
+                    elseif ($city->type == 'lien-mien') {
                         $shipping_fee = 45000;
-                    } elseif ($city->type == 'khac') {
-                        $shipping_fee = 55000;
-                    } else {
+                    }
+                    elseif ($city->type == 'khac') {
                         $shipping_fee = 55000;
                     }
-                } else {
+                    else {
+                        $shipping_fee = 55000;
+                    }
+                }
+                else {
                     if ($city->type == 'cung-mien') {
                         $shipping_fee = 30000;
-                    } elseif ($city->type == 'lien-mien') {
+                    }
+                    elseif ($city->type == 'lien-mien') {
                         $shipping_fee = 35000;
-                    } elseif ($city->type == 'khac') {
+                    }
+                    elseif ($city->type == 'khac') {
                         $shipping_fee = 45000;
-                    } else {
+                    }
+                    else {
                         $shipping_fee = 45000;
                     }
                 }
@@ -530,6 +581,22 @@ class OrdersController extends _BaseController
             ], [
                 'ID' => $data['order_id']
             ]);
+
+
+        // Create order ghn
+        $order_info = $this->getOrderInfo($data['order_id']);
+
+        $ghn = GHN::init();
+        $shipping_args = [
+            'RecipientName'   => $order_info->name,
+            'RecipientPhone'  => $order_info->phone,
+            'DeliveryAddress' => $order_info->address,
+            'DeliveryDistrictCode',
+            'ContentNote',
+            'ServiceID'
+        ];
+        $shipping_order = $ghn->createShippingOrder();
+
 
         $this->clearStaticCache();
 
@@ -606,7 +673,8 @@ class OrdersController extends _BaseController
 
         if (WP_DEBUG) {
             wp_mail('vietanhtran.it@gmail.com', $subject, $content, 'Content-type: text/html');
-        } else {
+        }
+        else {
             wp_mail('thorakaoshop@thorakaovn.com', $subject, $content, 'Content-type: text/html');
         }
 

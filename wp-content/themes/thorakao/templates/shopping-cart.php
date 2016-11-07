@@ -6,7 +6,6 @@
  * Time: 2:09 PM
  * Template name: Shopping bag
  */
-get_header();
 
 $productCtr = \TVA\Controllers\ProductController::init();
 $post_ctrl = \TVA\Controllers\PostController::init();
@@ -15,6 +14,12 @@ $post_ctrl = \TVA\Controllers\PostController::init();
 $city_list = $post_ctrl->getCityList();
 
 $cart = $_SESSION['cart'];
+if (empty($cart)) {
+    wp_redirect(WP_SITEURL);
+    exit;
+}
+
+get_header();
 ?>
 
 <div class="breadcrumb no-padding">
@@ -45,8 +50,8 @@ $cart = $_SESSION['cart'];
                     <div class="row">
                         <div class="col-md-6">
                             <div class="checkout-info">
-                                <div class="title checkout-title"><i class="fa fa-map-marker mr-10"></i>Địa chỉ nhận
-                                    hàng
+                                <div class="title checkout-title">
+                                    <i class="fa fa-map-marker mr-10"></i>Địa chỉ nhận hàng
                                 </div>
                                 <div class="checkout-content">
                                     <div class="checkout-info-form">

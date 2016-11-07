@@ -12,6 +12,18 @@ use TVA\Controllers\PostController;
 $product_ctrl = ProductController::init();
 $post_ctrl = PostController::init();
 
+// $ghn = \TVA\Models\GHN::init();
+// $rs = $ghn->httpRequestCurl('Signin', [
+//     'ClientID'     => $ghn->client_id,
+//     'Password'     => $ghn->password,
+//     'ApiKey'       => $ghn->api_key,
+//     'ApiSecretKey' => $ghn->api_secret
+// ]);
+// $rs = $ghn->getServiceInfos(['ToDistrictCode' => '0201', 'Weight' => 200, 'Height' => 10, 'Width' => 10, 'Length' => 10]);
+// $rs = $ghn->getServiceList(0222, 0216);
+// $rs = $ghn->getDistrictProvinceData();
+// var_dump($rs);
+
 $combo_term_taxonomy_id = pll_get_term_translations(5);
 $duongda_term_taxonomy_id = pll_get_term_translations(2);
 $duongtoc_term_taxonomy_id = pll_get_term_translations(3);
@@ -62,10 +74,10 @@ get_header(); ?>
 
 <div class="slider owl-carousel">
     <!--<div class="item"><a href="javascript:void(0)"><img-->
-                <!--src="--><?php //echo THEME_URL . '/images/banner/banner-trungthu.jpg'; ?><!--"></a></div>-->
+    <!--src="--><?php //echo THEME_URL . '/images/banner/banner-trungthu.jpg'; ?><!--"></a></div>-->
     <div class="item">
-    <a href="javascript:void(0)">
-    <img src="<?php echo THEME_URL . '/images/banner/banner3.png'; ?>"></a></div>
+        <a href="javascript:void(0)">
+            <img src="<?php echo THEME_URL . '/images/banner/banner3.png'; ?>"></a></div>
 </div>
 
 <div class="main-content">

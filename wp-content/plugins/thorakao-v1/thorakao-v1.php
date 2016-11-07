@@ -19,6 +19,8 @@ if (!defined('CACHETIME')) {
 if (!defined('VI_COMBO_TT_ID')) {
     define('VI_COMBO_TT_ID', 5);
 }
+define('PICKHUB_ID', 227278);
+define('PICKHUB_DISTRICT', '0210');
 
 add_action('plugins_loaded', 'trk_load', 500, 1);
 

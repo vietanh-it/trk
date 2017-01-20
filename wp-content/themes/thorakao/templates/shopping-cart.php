@@ -220,9 +220,9 @@ get_header();
                               <button class="btn btn-primary group-btn">Áp dụng</button></span>
                                                 </div>
                                                 <i class="mt-10 block fs-12 text-center">Sau khi áp dụng, mã giảm giá có
-                                                    thể
-                                                    không dùng được trong vòng<b class="pl-5">15 phút</b><a href="#"
-                                                                                                            chi tiết</a>
+                                                                                         thể
+                                                                                         không dùng được trong vòng<b class="pl-5">15 phút</b><a href="#"
+                                                                                                                                                 chi tiết</a>
                                                 </i>
                                             </div>
                                         </div>
@@ -245,9 +245,9 @@ get_header();
                                                     src="<?php echo THEME_URL ?>/images/delivery_icon.png" height="50"
                                                     width="50"></div>
                                             <div class="col-md-9 col-xs-8"><b>Thanh toán khi nhận hàng</b><br>Quý khách
-                                                sẽ thanh
-                                                toán
-                                                bằng tiền mặt khi Thorakao giao hàng cho quý khách
+                                                                                                              sẽ thanh
+                                                                                                              toán
+                                                                                                              bằng tiền mặt khi Thorakao giao hàng cho quý khách
                                             </div>
                                         </div>
                                     </div>
@@ -265,9 +265,9 @@ get_header();
                                                      width="50">
                                             </div>
                                             <div class="col-md-9 col-xs-8"><b>Thanh toán bằng thẻ ATM</b><br>Thẻ ATM của
-                                                bạn cần
-                                                đăng
-                                                ký sử dụng dịch vụ internet banking
+                                                                                                             bạn cần
+                                                                                                             đăng
+                                                                                                             ký sử dụng dịch vụ internet banking
                                             </div>
                                         </div>
                                     </div>
@@ -366,7 +366,7 @@ get_header();
 
                         var options = [];
                         $.each(data.data, function (k, v) {
-                            var item2 = new Option(v.Name, v.ShippingServiceID);
+                            var item2 = new Option(translateServiceName(v.ShippingServiceID), v.ShippingServiceID);
                             options.push(item2);
                         });
                         $('#shipping_method').append(options);
@@ -626,7 +626,16 @@ get_header();
                         $('.order-final-total').html(numberFormat(current_total) + ' đ');
 
                     } else {
+                        swal({
+                            "title": "Error",
+                            "text": data.data,
+                            "type": "error",
+                            html: true,
+                            confirmButtonColor: '#88b04b'
+                        });
+
                         $('.shipping-fee').html('...');
+                        $('#shipping_method').val('');
                     }
 
                 }

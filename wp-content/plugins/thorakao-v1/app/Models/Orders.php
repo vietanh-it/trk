@@ -71,7 +71,8 @@ class Orders
                 'status' => 'fail',
                 'data'   => 'Thorakao chưa hỗ trợ đặt hàng trên ngôn ngữ tiếng anh, vui lòng quay lại <a href="' . WP_SITEURL . '" style="color: #88b04b;">phiên bản tiếng việt</a>.'
             ];
-        } else {
+        }
+        else {
             // Nếu đã có product trong giỏ hàng
             if (isset($_SESSION['cart'][$product_id])) {
 
@@ -121,37 +122,38 @@ class Orders
         $data['order_id'] = 'TRK' . $id;
 
         //Update tên đơn hàng
-        $this->wpdb->update($this->wpdb->posts,
-            [
-                'post_title'    => 'Mã đơn hàng: TRK' . $id . ' - ' . $data['name'],
-                'post_modified' => current_time('mysql')
-            ],
-            ['ID' => $id]);
+        $this->wpdb->update($this->wpdb->posts, [
+            'post_title'    => 'Mã đơn hàng: TRK' . $id . ' - ' . $data['name'],
+            'post_modified' => current_time('mysql')
+        ], ['ID' => $id]);
 
 
         //Order info
         $subtotal = $_SESSION['subtotal'];
-        $shipping_fee = $this->calculateShippingFee($data['district_id'], $data['service_id'],
-            $_SESSION['total_weight']);
+        // $shipping_fee = $this->calculateShippingFee($data['district_id'], $data['service_id'],
+        //     $_SESSION['total_weight']);
+        $shipping_fee = $_SESSION['shipping_fee'];
         $total = $subtotal + $shipping_fee;
 
-        $this->wpdb->insert($this->tbl_order_info, [
-            'ID'             => $id,
-            'code'           => 'TRK' . $id,
-            'name'           => $data['name'],
-            'email'          => $data['email'],
-            'phone'          => $data['phone'],
-            'city_id'        => $data['city_id'],
-            'district_id'    => $data['district_id'],
-            'address'        => $data['address'],
-            'subtotal'       => $subtotal,
-            'total'          => $total,
-            'shipping_fee'   => $shipping_fee,
-            'payment_method' => $data['payment_method'],
-            'note'           => $data['note'],
-            'status'         => 'pending',
-            'created_at'     => current_time('mysql')
-        ]);
+        $insert_data = [
+            'ID'              => $id,
+            'code'            => 'TRK' . $id,
+            'name'            => $data['name'],
+            'email'           => $data['email'],
+            'phone'           => $data['phone'],
+            'city_id'         => $data['city_id'],
+            'district_id'     => $data['district_id'],
+            'address'         => $data['address'],
+            'subtotal'        => $subtotal,
+            'total'           => $total,
+            'shipping_fee'    => $_SESSION['shipping_fee'],
+            'shipping_method' => $data['shipping_method'],
+            'payment_method'  => $data['payment_method'],
+            'note'            => $data['note'],
+            'status'          => 'pending',
+            'created_at'      => current_time('mysql')
+        ];
+        $this->wpdb->insert($this->tbl_order_info, $insert_data);
 
         //Order detail
         foreach ($_SESSION['cart'] as $key => $item) {
@@ -164,12 +166,12 @@ class Orders
             ]);
         }
 
-        session_destroy();
-
         $data['url'] = pll_current_language() == 'vi' ? WP_SITEURL : WP_SITEURL . '/en/';
 
         // Send email
         $this->sendEmailOrder($id);
+
+        session_destroy();
 
         return [
             'status' => 'success',
@@ -226,7 +228,8 @@ class Orders
 
         if (WP_DEBUG) {
             return wp_mail('vietanhtran.it@gmail.com', $subject, $content, 'Content-type: text/html');
-        } else {
+        }
+        else {
             wp_mail('thorakaoshop@thorakaovn.com', $subject, $content, 'Content-type: text/html');
             //wp_mail('vietanhtran.it@gmail.com', $subject, $content, 'Content-type: text/html');
             return wp_mail($order_info->email, $subject, $content, 'Content-type: text/html');
@@ -314,7 +317,8 @@ class Orders
             if (!empty($_SESSION['shipping_fee'])) {
                 $result['shipping_fee'] = $_SESSION['shipping_fee'];
                 $result['total'] = $_SESSION['shipping_fee'] + $result['subtotal'];
-            } else {
+            }
+            else {
                 $result['shipping_fee'] = 0;
                 $result['total'] = $result['subtotal'];
             }

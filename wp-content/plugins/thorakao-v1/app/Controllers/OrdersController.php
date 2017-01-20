@@ -8,9 +8,9 @@ use TVA\Models\Orders;
 class OrdersController extends _BaseController
 {
     private static $instance;
-    private $wpdb;
-    private $tbl_order_info;
-    private $tbl_order_detail;
+    private        $wpdb;
+    private        $tbl_order_info;
+    private        $tbl_order_detail;
 
     protected function __construct()
     {
@@ -23,8 +23,14 @@ class OrdersController extends _BaseController
         $this->tbl_order_info = $wpdb->prefix . 'order_info';
         $this->tbl_order_detail = $wpdb->prefix . 'order_detail';
 
-        add_action("wp_ajax_trk_ajax_handler_order", [$this, "ajaxHandler"]);
-        add_action("wp_ajax_nopriv_trk_ajax_handler_order", [$this, "ajaxHandler"]);
+        add_action("wp_ajax_trk_ajax_handler_order", [
+            $this,
+            "ajaxHandler"
+        ]);
+        add_action("wp_ajax_nopriv_trk_ajax_handler_order", [
+            $this,
+            "ajaxHandler"
+        ]);
 
         // add_action('init', [$this, 'register_post_status'], 1);
     }
@@ -52,7 +58,8 @@ class OrdersController extends _BaseController
                 'status' => 'fail',
                 'data'   => 'Đã xảy ra lỗi, vui lòng thử lại.'
             ];
-        } else {
+        }
+        else {
             $m_order = Orders::init();
             $result = $m_order->saveCart($_POST['product_id'], $_POST['quantity'], false);
         }
@@ -73,22 +80,28 @@ class OrdersController extends _BaseController
         }
 
         if (!empty($_SESSION['cart'])) {
-            $this->validate->rule('required', ['name', 'phone', 'email', 'address', 'payment_method', 'city_id'])
-                ->message('Vui lòng nhập {field}')
-                ->labels([
-                    'name'           => 'họ tên',
-                    'phone'          => 'số điện thoại',
-                    'email'          => 'email',
-                    'address'        => 'địa chỉ',
-                    'payment_method' => 'phương thức thanh toán',
-                    'city_id'        => 'tỉnh thành'
-                ]);
+            $this->validate->rule('required', [
+                'name',
+                'phone',
+                'email',
+                'address',
+                'payment_method',
+                'city_id'
+            ])->message('Vui lòng nhập {field}')->labels([
+                'name'           => 'họ tên',
+                'phone'          => 'số điện thoại',
+                'email'          => 'email',
+                'address'        => 'địa chỉ',
+                'payment_method' => 'phương thức thanh toán',
+                'city_id'        => 'tỉnh thành'
+            ]);
 
             if ($this->validate->validate()) {
                 $m_order = Orders::init();
                 $result = $m_order->saveOrder($data);
 
-            } else {
+            }
+            else {
                 $result = [
                     'status'  => 'error',
                     'message' => 'Đã xảy ra lỗi, vui lòng thử lại'
@@ -117,36 +130,46 @@ class OrdersController extends _BaseController
 
         if (empty($city_id)) {
             $result = 0;
-        } else {
+        }
+        else {
             if ($city_id == 1) {
 
                 // TP HCM
                 if ($subtotal >= 200000) {
                     $shipping_fee = 0;
-                } elseif ($subtotal >= 101000) {
+                }
+                elseif ($subtotal >= 101000) {
                     $district_type = $this->getDistrictType($district_id);
                     if ($district_type == 'ngoai-thanh-1') {
                         $shipping_fee = 30000;
-                    } elseif ($district_type == 'ngoai-thanh-2') {
-                        $shipping_fee = 40000;
-                    } elseif ($district_type == 'noi-thanh') {
-                        $shipping_fee = 20000;
-                    } else {
+                    }
+                    elseif ($district_type == 'ngoai-thanh-2') {
                         $shipping_fee = 40000;
                     }
-                } else {
+                    elseif ($district_type == 'noi-thanh') {
+                        $shipping_fee = 20000;
+                    }
+                    else {
+                        $shipping_fee = 40000;
+                    }
+                }
+                else {
                     $district_type = $this->getDistrictType($district_id);
                     if ($district_type == 'ngoai-thanh-1') {
                         $shipping_fee = 25000;
-                    } elseif ($district_type == 'ngoai-thanh-2') {
+                    }
+                    elseif ($district_type == 'ngoai-thanh-2') {
                         $shipping_fee = 35000;
-                    } elseif ($district_type == 'noi-thanh') {
+                    }
+                    elseif ($district_type == 'noi-thanh') {
                         $shipping_fee = 15000;
-                    } else {
+                    }
+                    else {
                         $shipping_fee = 35000;
                     }
                 }
-            } else {
+            }
+            else {
 
                 $location_model = Location::init();
                 $city = $location_model->getCityBy('id', $city_id);
@@ -154,34 +177,46 @@ class OrdersController extends _BaseController
                 // City khác
                 if ($subtotal >= 500000) {
                     $shipping_fee = 0;
-                } elseif ($subtotal >= 251000) {
+                }
+                elseif ($subtotal >= 251000) {
                     if ($city->type == 'cung-mien') {
                         $shipping_fee = 45000;
-                    } elseif ($city->type == 'lien-mien') {
+                    }
+                    elseif ($city->type == 'lien-mien') {
                         $shipping_fee = 50000;
-                    } elseif ($city->type == 'khac') {
-                        $shipping_fee = 60000;
-                    } else {
+                    }
+                    elseif ($city->type == 'khac') {
                         $shipping_fee = 60000;
                     }
-                } elseif ($subtotal >= 101000) {
+                    else {
+                        $shipping_fee = 60000;
+                    }
+                }
+                elseif ($subtotal >= 101000) {
                     if ($city->type == 'cung-mien') {
                         $shipping_fee = 40000;
-                    } elseif ($city->type == 'lien-mien') {
+                    }
+                    elseif ($city->type == 'lien-mien') {
                         $shipping_fee = 45000;
-                    } elseif ($city->type == 'khac') {
-                        $shipping_fee = 55000;
-                    } else {
+                    }
+                    elseif ($city->type == 'khac') {
                         $shipping_fee = 55000;
                     }
-                } else {
+                    else {
+                        $shipping_fee = 55000;
+                    }
+                }
+                else {
                     if ($city->type == 'cung-mien') {
                         $shipping_fee = 30000;
-                    } elseif ($city->type == 'lien-mien') {
+                    }
+                    elseif ($city->type == 'lien-mien') {
                         $shipping_fee = 35000;
-                    } elseif ($city->type == 'khac') {
+                    }
+                    elseif ($city->type == 'khac') {
                         $shipping_fee = 45000;
-                    } else {
+                    }
+                    else {
                         $shipping_fee = 45000;
                     }
                 }
@@ -210,12 +245,11 @@ class OrdersController extends _BaseController
             'status' => 'processing'
         ], ['ID' => $data['order_id']]);
 
-        $this->wpdb->update($this->wpdb->posts,
-            [
-                'post_modified' => current_time('mysql')
-            ], [
-                'ID' => $data['order_id']
-            ]);
+        $this->wpdb->update($this->wpdb->posts, [
+            'post_modified' => current_time('mysql')
+        ], [
+            'ID' => $data['order_id']
+        ]);
 
 
         // Create order ghn
@@ -243,12 +277,11 @@ class OrdersController extends _BaseController
             'status' => 'completed'
         ], ['ID' => $data['order_id']]);
 
-        $this->wpdb->update($this->wpdb->posts,
-            [
-                'post_modified' => current_time('mysql')
-            ], [
-                'ID' => $data['order_id']
-            ]);
+        $this->wpdb->update($this->wpdb->posts, [
+            'post_modified' => current_time('mysql')
+        ], [
+            'ID' => $data['order_id']
+        ]);
 
         wp_publish_post($data['order_id']);
 
@@ -305,7 +338,8 @@ class OrdersController extends _BaseController
 
         if (WP_DEBUG) {
             wp_mail('vietanhtran.it@gmail.com', $subject, $content, 'Content-type: text/html');
-        } else {
+        }
+        else {
             wp_mail('thorakaoshop@thorakaovn.com', $subject, $content, 'Content-type: text/html');
         }
 
@@ -333,7 +367,8 @@ class OrdersController extends _BaseController
                 'status' => 'success',
                 'data'   => $rs
             ];
-        } else {
+        }
+        else {
             $result = [
                 'status' => 'fail'
             ];
@@ -352,13 +387,20 @@ class OrdersController extends _BaseController
     public function ajaxGetShippingFee($data)
     {
         $m_order = Orders::init();
-        $fee = $m_order->calculateShippingFee($data['to_district_code'], $data['service_id'],
-            $_SESSION['total_weight']);
+        $fee = $m_order->calculateShippingFee($data['to_district_code'], $data['service_id'], $_SESSION['total_weight']);
 
-        return [
-            'status' => 'success',
-            'data'   => $fee
-        ];
+        if (is_numeric($fee) && $fee >= 0) {
+            return [
+                'status' => 'success',
+                'data'   => $fee
+            ];
+        }
+        else {
+            return [
+                'status' => 'fail',
+                'data'   => 'Hình thức giao hàng này không được hỗ trợ.'
+            ];
+        }
     }
 
 
@@ -380,7 +422,8 @@ class OrdersController extends _BaseController
                 'status' => 'fail',
                 'data'   => 'Đã xảy ra lỗi, vui lòng thử lại.'
             ];
-        } else {
+        }
+        else {
             $m_order = Orders::init();
             $result = $m_order->saveCart($_POST['product_id'], $_POST['quantity']);
         }

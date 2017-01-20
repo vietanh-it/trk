@@ -30,6 +30,7 @@ class _BaseController
                 $result = call_user_func([$this, "ajax" . $method], $_REQUEST);
             }
         }
+        $this->clearStaticCache();
 
         echo json_encode($result);
         exit;

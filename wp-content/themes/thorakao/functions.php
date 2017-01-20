@@ -36,12 +36,13 @@ function themeSetup()
 add_action('wp_enqueue_scripts', 'setupScriptsStyles');
 function setupScriptsStyles()
 {
-    $version = '20160704_1059';
+    $version = '20160704_102';
 
     if (!is_admin()) {
         // comment out the next two lines to load the local copy of jQuery
         wp_deregister_script('jquery');
-        wp_register_script('jquery', 'http://ajax.googleapis.com/ajax/libs/jquery/1.8.1/jquery.min.js', false, '1.8.1');
+        // wp_register_script('jquery', 'http://ajax.googleapis.com/ajax/libs/jquery/1.8.1/jquery.min.js', false, '1.8.1');
+        wp_register_script('jquery', THEME_URL . '/js/jquery.min.js', false, '1.8.1');
         wp_enqueue_script('jquery');
     }
 

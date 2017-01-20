@@ -58,7 +58,7 @@ class GHN
     public function httpRequestCurl($action, array $data = [], $method = 'POST', $options = [])
     {
         $data = array_merge($data, $this->authenticate);
-
+        // var_dump($data);
         $url = $this->api_uri . "/" . $action;
         $ch = curl_init();
         if ($method == 'POST') {
@@ -119,10 +119,10 @@ class GHN
     {
         $rs = $this->httpRequestCurl('GetServiceList', [
             "FromDistrictCode" => PICKHUB_DISTRICT,
-            "ToDistrictCode"   => "0201"
+            "ToDistrictCode"   => $to_district_code
         ]);
 
-        return $rs;
+        return $rs->Services;
     }
 
 
@@ -145,25 +145,23 @@ class GHN
     }
 
 
-    public function calculateFee()
+    public function calculateFee($weight, $to_district_code, $service_id)
     {
         $rs = $this->httpRequestCurl('CalculateServiceFee', [
             'Items' => [
                 [
-                    "Weight"           => 10,
+                    "Weight"           => $weight,
                     "Length"           => 10,
                     "Width"            => 10,
                     "Height"           => 10,
-                    "FromDistrictCode" => "0222",
-                    "ToDistrictCode"   => "0216",
-                    "ServiceID"        => 53330
+                    "FromDistrictCode" => PICKHUB_DISTRICT,
+                    "ToDistrictCode"   => $to_district_code,
+                    "ServiceID"        => $service_id
                 ]
             ]
         ]);
 
-        $rs = json_decode($rs);
-
-        return $rs;
+        return $rs->Items[0]->ServiceFee;
     }
 
 
@@ -177,7 +175,21 @@ class GHN
 
     public function createShippingOrder($args = [])
     {
-        $shipping_args = array_merge(['PickHubID' => PICKHUB_ID], $args);
+        $default = [
+            'PickHubID'        => PICKHUB_ID,
+            'FromDistrictCode' => '0210',
+            // 'ToDistrictCode'   => '0201',
+            'Weight'           => 500,
+            'Height'           => 10,
+            'Width'            => 10,
+            'Length'           => 10,
+            'ServiceID'        => 53319,
+            // "RecipientName"        => "Nguyễn Dương Hoàng Vũ",
+            // "RecipientPhone"       => "0908626483",
+            // "DeliveryAddress"      => "214 Bắc Hải",
+            // "DeliveryDistrictCode" => "0201"
+        ];
+        $shipping_args = array_merge($default, $args);
 
         $rs = $this->httpRequestCurl('CreateShippingOrder', (array)$shipping_args);
 
@@ -189,6 +201,22 @@ class GHN
     {
         $rs = $this->httpRequestCurl('GetOrderInfo', [
             'OrderCode' => '1KB6UOFU'
+        ]);
+
+        return $rs;
+    }
+
+
+    public function getShippingFee($to_district_code, $service_id)
+    {
+        $rs = $this->httpRequestCurl('CalculateServiceFee', [
+            'Weight'           => 200,
+            'Length'           => 10,
+            'Width'            => 10,
+            'Height'           => 10,
+            'FromDistrictCode' => PICKHUB_DISTRICT,
+            'ToDistrictCode'   => $to_district_code,
+            'ServiceID'        => $service_id
         ]);
 
         return $rs;

@@ -16,55 +16,6 @@ jQuery(document).ready(function ($) {
     //     return false;
     // });
 
-    $(document).delegate('.add-to-cart', 'click', function (e) {
-        e.preventDefault();
-        var obj = $(this);
-
-        var product_id = obj.attr('data-product-id');
-        $.ajax({
-            url: ajaxurl,
-            type: "post",
-            dataType: 'json',
-            data: {
-                action: "trk_ajax_handler_order",
-                method: "AddToCart",
-                product_id: product_id,
-                quantity: 1
-            },
-            beforeSend: function () {
-                obj.attr('disabled', true).css({'opacity': '0.5'});
-            },
-            success: function (data) {
-                obj.attr('disabled', false).css({'opacity': 1});
-                if (data.status == 'success') {
-                    swal({
-                            title: data.message,
-                            text: "<p style='font-weight: bold;color: #80b501'>Bạn có muốn xem giỏ hàng?</p>",
-                            type: "success",
-                            showCancelButton: true,
-                            confirmButtonColor: "#80b501",
-                            confirmButtonText: "Xem giỏ hàng",
-                            closeOnConfirm: false,
-                            cancelButtonText: "Mua tiếp",
-                            html: true
-                        },
-                        function (is_confirm) {
-                            if (is_confirm) {
-                                window.location.href = data.data.url;
-                            } else {
-                                window.location.reload();
-                            }
-                        }
-                    );
-
-                }
-                else {
-                    swal({"title": "Error", "text": data.message, "type": "error", html: true});
-                }
-            }
-        });
-    });
-
 
     //Delete product row at shopping cart
     $(document).delegate('[data-delete-product-cart]', 'click', function (e) {
@@ -108,74 +59,6 @@ jQuery(document).ready(function ($) {
                 }
             }
         });
-    });
-
-
-    $('.form-detail').validate({
-        rules: {
-            quantity: {
-                required: true,
-                min: 1
-            }
-        },
-        messages: {
-            quantity: {
-                requrired: "Vui lòng chọn số lượng muốn mua.",
-                min: "Vui lòng chọn số lượng muốn mua."
-            }
-        },
-        errorPlacement: function (error, element) {
-            element.attr('data-original-title', error.text())
-                .attr('data-toggle', 'tooltip')
-                .attr('data-placement', 'top');
-            $(element).tooltip('show');
-        },
-        unhighlight: function (element) {
-            $(element)
-                .removeAttr('data-toggle')
-                .removeAttr('data-original-title')
-                .removeAttr('data-placement')
-                .removeClass('error');
-            $(element).unbind("tooltip");
-        },
-        submitHandler: function (form) {
-            var obj = $(form);
-            $.ajax({
-                url: ajaxurl,
-                type: "post",
-                dataType: 'json',
-                data: obj.serialize(),
-                beforeSend: function () {
-                    $('input, button[type=submit]', obj).attr('disabled', true).css({'opacity': '0.5'});
-                },
-                success: function (data) {
-                    $('input, button[type=submit]', obj).attr('disabled', false).css({'opacity': 1});
-                    if (data.status == 'success') {
-                        swal({
-                                title: data.message,
-                                text: "<p style='font-weight: bold;color: #80b501'>Bạn có muốn xem giỏ hàng?</p>",
-                                type: "success",
-                                showCancelButton: true,
-                                confirmButtonColor: "#80b501",
-                                confirmButtonText: "Xem giỏ hàng",
-                                closeOnConfirm: false,
-                                cancelButtonText: "Mua tiếp",
-                                html: true
-                            },
-                            function (is_confirm) {
-                                if (is_confirm) {
-                                    window.location.href = data.data.url;
-                                } else {
-                                    window.location.reload();
-                                }
-                            });
-                    }
-                    else {
-                        swal({"title": "Error", "text": data.message, "type": "error", html: true});
-                    }
-                }
-            });
-        }
     });
 
 
@@ -228,7 +111,7 @@ jQuery(document).ready(function ($) {
                         swal({
                                 title: 'Thành công',
                                 text: "<p style='font-weight: bold;color: black'>Đặt hàng thành công, mã đơn hàng của bạn là: " + data.data.order_id + ".</p><br/>Vui lòng kiểm tra hộp thư đến hoặc hộp thư spam để xem đơn hàng.",
-                                confirmButtonColor: "#80b501",
+                                confirmButtonColor: "#88b04b",
                                 type: "success",
                                 html: true
                             },
@@ -238,121 +121,6 @@ jQuery(document).ready(function ($) {
                     }
                     else {
                         swal({"title": "Error", "text": data.message, "type": "error", html: true});
-                    }
-                }
-            });
-        }
-    });
-
-
-    $(document).delegate('#city_id', 'change', function (e) {
-        e.preventDefault();
-        var obj = $(this);
-        var city_id = obj.val();
-
-        if (city_id == 1) {
-            $('#district_id').parent('.district-wrapper').fadeIn();
-        } else {
-            $('#district_id').parent('.district-wrapper').fadeOut();
-        }
-        $.ajax({
-            url: ajaxurl,
-            type: "post",
-            dataType: 'json',
-            data: {
-                action: "trk_ajax_handler_post",
-                method: "GetDistrictList",
-                city_id: city_id
-            },
-            beforeSend: function () {
-                obj.attr('disabled', true).css({'opacity': '0.5'});
-                $('.btn-submit-checkout').attr('disabled', true).css({'opacity': '0.5'});
-            },
-            success: function (data) {
-                obj.attr('disabled', false).css({'opacity': 1});
-                $('.btn-submit-checkout').attr('disabled', false).css({'opacity': 1});
-                if (data.status == 'success') {
-
-                    //Clear current districts
-                    $('#district_id option:gt(0)').remove();
-
-                    var options = [];
-                    $.each(data.data, function (k, v) {
-                        var item = new Option(v.name, v.id);
-                        options.push(item);
-                    });
-                    $('#district_id').append(options);
-                }
-                else {
-                    swal({"title": "Error", "text": data.message, "type": "error", html: true});
-                }
-            }
-        });
-
-        if (city_id != 1) {
-            $.ajax({
-                url: ajaxurl,
-                type: "post",
-                dataType: 'json',
-                data: {
-                    action: "trk_ajax_handler_order",
-                    method: "GetShippingFee",
-                    city_id: city_id,
-                    district_id: $('#district_id').val(),
-                    subtotal: $('[data-order-total]').attr('data-order-total')
-                },
-                beforeSend: function () {
-                    // obj.attr('disabled', true).css({'opacity': '0.5'});
-                    $('.btn-submit-checkout').attr('disabled', true).css({'opacity': '0.5'});
-                },
-                success: function (data) {
-                    // obj.attr('disabled', false).css({'opacity': 1});
-                    $('.btn-submit-checkout').attr('disabled', false).css({'opacity': 1});
-                    if (data.status == 'success') {
-
-                        $('.shipping-fee').html(data.data.shipping_fee_display);
-                        $('.cart-total').html(data.data.total_display);
-                        $('#input_shipping_fee').val(data.data.shipping_fee);
-                        $('#input_cart_total').val(data.data.total);
-
-                    }
-                }
-            });
-        }
-    });
-
-
-    $(document).delegate('#district_id', 'change', function (e) {
-        e.preventDefault();
-        var order_total = $('[data-order-total]').attr('data-order-total');
-        var district_id = $(this).val();
-
-        if ($('#city_id').val() == 1) {
-            $.ajax({
-                url: ajaxurl,
-                type: "post",
-                dataType: 'json',
-                data: {
-                    action: "trk_ajax_handler_order",
-                    method: "GetShippingFee",
-                    city_id: $('#city_id').val(),
-                    district_id: $('#district_id').val(),
-                    subtotal: $('[data-order-total]').attr('data-order-total')
-                },
-                beforeSend: function () {
-                    // obj.attr('disabled', true).css({'opacity': '0.5'});
-                    $('.btn-submit-checkout').attr('disabled', true).css({'opacity': '0.5'});
-                },
-                success: function (data) {
-                    // obj.attr('disabled', false).css({'opacity': 1});
-                    $('.btn-submit-checkout').attr('disabled', false).css({'opacity': 1});
-                    if (data.status == 'success') {
-
-                        $('.shipping-fee').html(data.data.shipping_fee_display);
-                        $('.cart-total').html(data.data.total_display);
-                        $('#input_shipping_fee').val(data.data.shipping_fee);
-                        $('#input_cart_total').val(data.data.total);
-
                     }
                 }
             });

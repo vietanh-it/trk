@@ -64,11 +64,14 @@ $product_ctrl = \TVA\Controllers\ProductController::init();
     <?php $menu = 'home';
     if (is_page_template('templates/all-product.php') || is_singular('product')) {
         $menu = 'products';
-    } elseif (is_page_template('templates/recipe.php') || is_single('recipe')) {
+    }
+    elseif (is_page_template('templates/recipe.php') || is_single('recipe')) {
         $menu = 'recipe';
-    } elseif (is_page_template('templates/beauty.php') || is_single('beauty')) {
+    }
+    elseif (is_page_template('templates/beauty.php') || is_single('beauty')) {
         $menu = 'beauty';
-    } elseif (is_page(['gioi-thieu', 'about-us'])) {
+    }
+    elseif (is_page(['gioi-thieu', 'about-us'])) {
         $menu = 'aboutus';
     } ?>
 
@@ -82,28 +85,50 @@ $product_ctrl = \TVA\Controllers\ProductController::init();
     <!--@formatter:off-->
     <link href='https://fonts.googleapis.com/css?family=Roboto:400,400italic,300,300italic,700&subset=latin,vietnamese' rel='stylesheet' type='text/css'>
     <script>
-      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-      })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+        (function (i, s, o, g, r, a, m) {
+            i['GoogleAnalyticsObject'] = r;
+            i[r] = i[r] || function () {
+                    (i[r].q = i[r].q || []).push(arguments)
+                }, i[r].l = 1 * new Date();
+            a = s.createElement(o),
+                m = s.getElementsByTagName(o)[0];
+            a.async = 1;
+            a.src = g;
+            m.parentNode.insertBefore(a, m)
+        })(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
 
-      ga('create', 'UA-74444133-2', 'thorakao.com');
-      ga('require', 'displayfeatures');
-      ga('send', 'pageview');
+        ga('create', 'UA-74444133-2', 'thorakao.com');
+        ga('require', 'displayfeatures');
+        ga('send', 'pageview');
 
     </script>
 
     <!-- Facebook Pixel Code -->
-        <script>
-        !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-        n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
-        n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
-        t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
-        document,'script','https://connect.facebook.net/en_US/fbevents.js');
+    <script>
+        !function (f, b, e, v, n, t, s) {
+            if (f.fbq)return;
+            n = f.fbq = function () {
+                n.callMethod ?
+                    n.callMethod.apply(n, arguments) : n.queue.push(arguments)
+            };
+            if (!f._fbq)f._fbq = n;
+            n.push = n;
+            n.loaded = !0;
+            n.version = '2.0';
+            n.queue = [];
+            t = b.createElement(e);
+            t.async = !0;
+            t.src = v;
+            s = b.getElementsByTagName(e)[0];
+            s.parentNode.insertBefore(t, s)
+        }(window,
+            document, 'script', 'https://connect.facebook.net/en_US/fbevents.js');
 
         fbq('init', '1301984116497345');
         fbq('track', "PageView");</script>
-        <noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=1301984116497345&ev=PageView&noscript=1"/></noscript>
+    <noscript>
+        <img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=1301984116497345&ev=PageView&noscript=1"/>
+    </noscript>
     <!-- End Facebook Pixel Code -->
     <!--@formatter:on-->
 
@@ -111,7 +136,8 @@ $product_ctrl = \TVA\Controllers\ProductController::init();
 <body <?php body_class(); ?>>
 <!--[if lt IE 10]>
 <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade
-    your browser</a> to improve your experience.</p>
+                                                                                                                       your browser</a> to improve your experience.
+</p>
 <![endif]-->
 <header>
     <div class="container">
@@ -148,7 +174,7 @@ $product_ctrl = \TVA\Controllers\ProductController::init();
                                     $product_info = $product_ctrl->getProductInfo($v['product_id']);
                                     $price_subtotal[] = (intval($product_info->price) * intval($v['quantity']));
                                     ?>
-                                    <tr>
+                                    <tr data-pid="<?php echo $product_info->ID; ?>">
 
                                         <td><img src="<?php echo $product_info->featured_image ?>" width="60"
                                                  height="60"></td>
@@ -225,7 +251,8 @@ $product_ctrl = \TVA\Controllers\ProductController::init();
                         </div>
                         <button type="submit" class="btn btn-primary"><i class="fa fa-search"></i></button>
                     </form>
-                <?php } else { ?>
+                <?php }
+                else { ?>
                     <ul class="nav navbar-nav">
                         <li data-menu="home"><a href="<?php echo WP_SITEURL . '/en/'; ?>">Home</a></li>
                         <li data-menu="products"><a href="<?php echo WP_SITEURL . '/en/products'; ?>">All Product</a>

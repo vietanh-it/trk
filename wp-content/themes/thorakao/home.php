@@ -21,8 +21,24 @@ $post_ctrl = PostController::init();
 // ]);
 // $rs = $ghn->getServiceInfos(['ToDistrictCode' => '0201', 'Weight' => 200, 'Height' => 10, 'Width' => 10, 'Length' => 10]);
 // $rs = $ghn->getServiceList(0222, 0216);
-// $rs = $ghn->getDistrictProvinceData();
+// $rs = $ghn->getServiceList('0216');
+// $order = \TVA\Controllers\OrdersController::init();
+// $rs = $order->getWeight();
 // var_dump($rs);
+
+// $rs = $ghn->createShippingOrder([
+//     'FromDistrictCode'     => '0210',
+//     // 'ToDistrictCode'   => '0201',
+//     'Weight'               => 200,
+//     'Height'               => 10,
+//     'Width'                => 10,
+//     'Length'               => 10,
+//     'ServiceID'            => 53319,
+//     "RecipientName"        => "Nguyễn Dương Hoàng Vũ",
+//     "RecipientPhone"       => "0908626483",
+//     "DeliveryAddress"      => "214 Bắc Hải",
+//     "DeliveryDistrictCode" => "0201"
+// ]);
 
 $combo_term_taxonomy_id = pll_get_term_translations(5);
 $duongda_term_taxonomy_id = pll_get_term_translations(2);
@@ -76,7 +92,7 @@ get_header(); ?>
     <!--<div class="item"><a href="javascript:void(0)"><img-->
     <!--src="--><?php //echo THEME_URL . '/images/banner/banner-trungthu.jpg'; ?><!--"></a></div>-->
     <div class="item">
-        <a href="javascript:void(0)">
+        <a href="<?php echo WP_SITEURL . '/theo-loai/that-don-gian-de-dat-hang-va-so-huu-san-pham-thorakao-chinh-hang-chat-luong'; ?>">
             <img src="<?php echo THEME_URL . '/images/banner/banner3.png'; ?>"></a></div>
 </div>
 
@@ -205,8 +221,11 @@ get_header(); ?>
                                     <?php echo pll_current_language() == 'vi' ? 'Thêm vào giỏ hàng' : 'Add to cart' ?>
                                     </span>
                             </a>
-                            <a href="<?php echo $item->permalink ?>"
-                               class="product__title"><?php echo $item->post_title; ?></a>
+
+                            <a href="<?php echo $item->permalink ?>" class="product__title">
+                                <?php echo $item->post_title; ?>
+                            </a>
+
                             <div class="product__desc">
                                 <i><?php echo $item->post_excerpt; ?></i>
                             </div>
@@ -363,8 +382,68 @@ else {
     var $ = jQuery.noConflict();
     $(document).ready(function () {
 
+
+        // Add to cart
+        $(document).delegate('.add-to-cart', 'click', function (e) {
+            e.preventDefault();
+            var obj = $(this);
+
+            var product_id = obj.attr('data-product-id');
+            $.ajax({
+                url: ajaxurl,
+                type: "post",
+                dataType: 'json',
+                data: {
+                    action: "trk_ajax_handler_order",
+                    method: "AddToCart",
+                    product_id: product_id,
+                    quantity: 1
+                },
+                beforeSend: function () {
+                    show_loading();
+                },
+                success: function (data) {
+                    hide_loading();
+
+                    if (data.status == 'success') {
+                        swal({
+                                title: "Thêm vào giỏ hàng thành công.",
+                                text: "<p style='font-weight: bold;color: #88b04b'>Bạn có muốn xem giỏ hàng?</p>",
+                                type: "success",
+                                showCancelButton: true,
+                                confirmButtonColor: "#88b04b",
+                                confirmButtonText: "Xem giỏ hàng",
+                                closeOnConfirm: false,
+                                cancelButtonText: "Mua tiếp",
+                                html: true
+                            },
+                            function (is_confirm) {
+                                if (is_confirm) {
+                                    swal.close();
+                                    var win = window.open(location.protocol + '//' + location.host + '/gio-hang', '_blank');
+                                    win.focus();
+                                } else {
+                                    window.location.reload();
+                                }
+                            }
+                        );
+
+                    }
+                    else {
+                        if (data.message) {
+                            swal({"title": "Error", "text": data.message, "type": "error", html: true});
+                        } else if (data.data) {
+                            swal({"title": "Thất bại", "text": data.data, "type": "error", html: true});
+                        }
+                    }
+                }
+            });
+        });
+
+
         <?php if ($is_opening) { ?>
 
+        // Get latest banner
         $.ajax({
             url: '<?php echo admin_url('admin-ajax.php'); ?>',
             type: 'post',

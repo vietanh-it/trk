@@ -114,7 +114,7 @@ get_header(); ?>
                             <div class="detail__desc mCustomScrollbar mb-10">
                                 <?php echo $product_detail->post_content; ?>
                             </div>
-                            <form action="javascript:void(0)" class="mt-20 form-inline form-detail">
+                            <form action="javascript:void(0)" class="mt-20 form-inline form-detail form-single-product">
                                 <div style="display: none">
                                     <div class="hr-grey clearfix"></div>
                                     <div class="form-group text-center mt-20">
@@ -232,4 +232,83 @@ get_header(); ?>
         </div>
     </div>
 
-<?php get_footer();
+<?php get_footer(); ?>
+
+<script>
+    var $ = jQuery.noConflict();
+    $(document).ready(function () {
+        $('.form-single-product').validate({
+            rules: {
+                quantity: {
+                    required: true,
+                    min: 1
+                }
+            },
+            messages: {
+                quantity: {
+                    requrired: "Vui lòng chọn số lượng muốn mua.",
+                    min: "Vui lòng chọn số lượng muốn mua."
+                }
+            },
+            errorPlacement: function (error, element) {
+                element.attr('data-original-title', error.text())
+                    .attr('data-toggle', 'tooltip')
+                    .attr('data-placement', 'top');
+                $(element).tooltip('show');
+            },
+            unhighlight: function (element) {
+                $(element)
+                    .removeAttr('data-toggle')
+                    .removeAttr('data-original-title')
+                    .removeAttr('data-placement')
+                    .removeClass('error');
+                $(element).unbind("tooltip");
+            },
+            submitHandler: function (form) {
+                var obj = $(form);
+                $.ajax({
+                    url: ajaxurl,
+                    type: "post",
+                    dataType: 'json',
+                    data: obj.serialize(),
+                    beforeSend: function () {
+                        show_loading();
+                    },
+                    success: function (data) {
+                        hide_loading();
+
+                        if (data.status == 'success') {
+                            swal({
+                                    title: "Thêm vào giỏ hàng thành công.",
+                                    text: "<p style='font-weight: bold;color: #88b04b'>Bạn có muốn xem giỏ hàng?</p>",
+                                    type: "success",
+                                    showCancelButton: true,
+                                    confirmButtonColor: "#88b04b",
+                                    confirmButtonText: "Xem giỏ hàng",
+                                    closeOnConfirm: false,
+                                    cancelButtonText: "Mua tiếp",
+                                    html: true
+                                },
+                                function (is_confirm) {
+                                    if (is_confirm) {
+                                        swal.close();
+                                        var win = window.open(location.protocol + '//' + location.host + '/gio-hang', '_blank');
+                                        win.focus();
+                                    } else {
+                                        window.location.reload();
+                                    }
+                                });
+                        }
+                        else {
+                            if(data.message) {
+                                swal({"title": "Error", "text": data.message, "type": "error", html: true});
+                            } else if (data.data) {
+                                swal({"title": "Thất bại", "text": data.data, "type": "error", html: true});
+                            }
+                        }
+                    }
+                });
+            }
+        });
+    });
+</script>

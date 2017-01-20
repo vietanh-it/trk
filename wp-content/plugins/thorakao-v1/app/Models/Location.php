@@ -17,8 +17,8 @@ class Location
     {
         global $wpdb;
         $this->_wpdb = $wpdb;
-        $this->_table_city = $wpdb->prefix . "location_city";
-        $this->_table_district = $wpdb->prefix . "location_district";
+        $this->_table_city = $wpdb->prefix . "district_province";
+        $this->_table_district = $wpdb->prefix . "district_province";
     }
 
     public static function init()

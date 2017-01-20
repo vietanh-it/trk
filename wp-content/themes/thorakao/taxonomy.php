@@ -174,4 +174,70 @@ get_header(); ?>
         </div>
     </div>
 
-<?php get_footer();
+<?php get_footer(); ?>
+
+<script>
+    var $ = jQuery.noConflict();
+    $(document).ready(function () {
+
+
+        // Add to cart
+        $(document).delegate('.add-to-cart', 'click', function (e) {
+            e.preventDefault();
+            var obj = $(this);
+
+            var product_id = obj.attr('data-product-id');
+            $.ajax({
+                url: ajaxurl,
+                type: "post",
+                dataType: 'json',
+                data: {
+                    action: "trk_ajax_handler_order",
+                    method: "AddToCart",
+                    product_id: product_id,
+                    quantity: 1
+                },
+                beforeSend: function () {
+                    show_loading();
+                },
+                success: function (data) {
+                    hide_loading();
+
+                    if (data.status == 'success') {
+                        swal({
+                                title: "Thêm vào giỏ hàng thành công.",
+                                text: "<p style='font-weight: bold;color: #88b04b'>Bạn có muốn xem giỏ hàng?</p>",
+                                type: "success",
+                                showCancelButton: true,
+                                confirmButtonColor: "#88b04b",
+                                confirmButtonText: "Xem giỏ hàng",
+                                closeOnConfirm: false,
+                                cancelButtonText: "Mua tiếp",
+                                html: true
+                            },
+                            function (is_confirm) {
+                                if (is_confirm) {
+                                    swal.close();
+                                    var win = window.open(location.protocol + '//' + location.host + '/gio-hang', '_blank');
+                                    win.focus();
+                                } else {
+                                    window.location.reload();
+                                }
+                            }
+                        );
+
+                    }
+                    else {
+                        if (data.message) {
+                            swal({"title": "Error", "text": data.message, "type": "error", html: true});
+                        } else if (data.data) {
+                            swal({"title": "Thất bại", "text": data.data, "type": "error", html: true});
+                        }
+                    }
+                }
+            });
+        });
+
+
+    });
+</script>

@@ -17,7 +17,8 @@ class Posts
     protected $tbl_post_info_raw;
     protected $tbl_location_city;
     protected $tbl_location_district;
-    private $db;
+    protected $tbl_district_province;
+    private   $db;
 
     private static $instance;
 
@@ -41,6 +42,7 @@ class Posts
 
         $this->tbl_location_city = $wpdb->prefix . 'location_city';
         $this->tbl_location_district = $wpdb->prefix . 'location_district';
+        $this->tbl_district_province = $wpdb->prefix . 'district_province';
     }
 
     public static function init()
@@ -88,7 +90,8 @@ class Posts
         if (empty($post_info)) {
             $data['ID'] = $post_id;
             $this->db->table($this->tbl_post_info_raw)->insert($data);
-        } else {
+        }
+        else {
             $this->db->table($this->tbl_post_info_raw)
                 ->where('ID', $post_id)
                 ->update($data);
@@ -153,7 +156,8 @@ class Posts
                     if (!empty($result->price)) {
                         if ($result->language == 'vi') {
                             $result->price_display = number_format($result->price) . $vi_currency;
-                        } else {
+                        }
+                        else {
                             $currency_rate = get_option('currency_rate');
                             if (empty($currency_rate)) {
                                 $currency_rate = '22367';
@@ -162,7 +166,8 @@ class Posts
                             $result->price = $result->price / $currency_rate;
                             $result->price_display = $en_currency . number_format($result->price, 2);
                         }
-                    } else {
+                    }
+                    else {
                         $result->price_display = '';
                     }
                 }
@@ -222,7 +227,8 @@ class Posts
             // $join .= " INNER JOIN {$this->wpdb->prefix}terms AS t ON tt.term_id = t.term_id";
             // $select .= ", tt.*, t.*";
             $where .= " AND tr.term_taxonomy_id = " . $params['term_taxonomy_id'];
-        } else {
+        }
+        else {
             $where .= " AND tr.term_taxonomy_id = " . (pll_current_language() == 'vi' ? 14 : 17);
         }
 
@@ -240,7 +246,8 @@ class Posts
             $limit = (empty($params['limit'])) ? 20 : intval($params['limit']);
             $to = ($page - 1) * $limit;
             $query .= " LIMIT $to, $limit";
-        } elseif (!empty($params['limit'])) {
+        }
+        elseif (!empty($params['limit'])) {
             $query .= " LIMIT " . $params['limit'];
         }
 
@@ -269,7 +276,8 @@ class Posts
 
 //        var_dump($products);
             return $products;
-        } else {
+        }
+        else {
             foreach ($result as $item) {
                 //Image
                 $thumbnail_id = get_post_thumbnail_id($item->ID);
@@ -306,8 +314,13 @@ class Posts
 
     public function getCityList()
     {
-        $query = "SELECT * FROM {$this->tbl_location_city}";
+        // $query = "SELECT * FROM {$this->tbl_location_city}";
+        $query = "SELECT ProvinceCode as id, ProvinceName as name FROM {$this->tbl_district_province} GROUP BY ProvinceCode";
         $result = $this->wpdb->get_results($query);
+
+        foreach ($result as $k => $v) {
+            $v->slug = sanitize_title($v->name);
+        }
 
         return $result;
     }
@@ -315,8 +328,13 @@ class Posts
 
     public function getDistrictList($city_id)
     {
-        $query = "SELECT * FROM {$this->tbl_location_district} WHERE city_id = {$city_id}";
+        // $query = "SELECT * FROM {$this->tbl_location_district} WHERE city_id = {$city_id} AND district_code IS NOT NULL";
+        $query = "SELECT DistrictCode as id, DistrictName as name, ProvinceCode as city_id FROM {$this->tbl_district_province} WHERE ProvinceCode = '{$city_id}'";
         $result = $this->wpdb->get_results($query);
+
+        foreach ($result as $k => $v) {
+            $v->slug = sanitize_title($v->name);
+        }
 
         return $result;
     }

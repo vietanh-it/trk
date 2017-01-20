@@ -162,7 +162,7 @@ get_header(); ?>
                                 swal({
                                     title: 'Thành công',
                                     text: "<p style='font-weight: bold;color: black'>Gửi liên hệ thành công</p>",
-                                    confirmButtonColor: "#80b501",
+                                    confirmButtonColor: "#88b04b",
                                     type: "success",
                                     html: true
                                 });

@@ -172,8 +172,8 @@ $theo_cong_dung = $post_ctrl->getTermList('theo-cong-dung');
                     src="<?php echo THEME_URL; ?>/images/hvnclc.jpg" width="90"></div>
             <div class="col-md-5 company_info text-center">
                 <div style="padding-bottom: 10px;"><b>Copyright &copy; 2016 By Thorakao, All rights reserved</b></div>
-                <div>Công ty TNHH sản xuất mỹ phẩm Lan Hảo<br>241 bis Cách mạng tháng tám, quận 3, tphcm<br>Hotline:
-                    (08) 383 27381<br>Email: Thorakao@thorakaovn.com
+                <div>Công ty TNHH sản xuất mỹ phẩm Lan Hảo<br>241 bis Cách mạng tháng tám, quận 3, tphcm<br>Điện thoại:
+                    (08) 383 25946<br>Email: Thorakao@thorakaovn.com
                 </div>
             </div>
             <div class="col-md-4 footer-bottom-logos">
@@ -194,7 +194,21 @@ $theo_cong_dung = $post_ctrl->getTermList('theo-cong-dung');
 <div class="back-to-top"><i class="fa fa-chevron-up"></i></div>
 <?php wp_footer(); ?>
 
+<div class="loading">
+    <i class="fa fa-spin fa-cog"></i>
+</div>
+
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.js"></script>
+
+<script>
+    function show_loading() {
+        $('.loading').fadeIn();
+    }
+
+    function hide_loading() {
+        $('.loading').fadeOut();
+    }
+</script>
 
 </body>
 </html>

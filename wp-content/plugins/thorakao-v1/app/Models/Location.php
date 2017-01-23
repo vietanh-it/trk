@@ -88,7 +88,6 @@ class Location
         $result = wp_cache_get($cacheId);
         if ($result === false) {
             $query = "SELECT * FROM {$this->_table_district} WHERE $field = '$value'";
-
             if ($field == 'city_id') {
                 $result = $this->_wpdb->get_results($query);
             } else {

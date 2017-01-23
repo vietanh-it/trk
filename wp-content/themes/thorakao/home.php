@@ -12,33 +12,6 @@ use TVA\Controllers\PostController;
 $product_ctrl = ProductController::init();
 $post_ctrl = PostController::init();
 
-// $ghn = \TVA\Models\GHN::init();
-// $rs = $ghn->httpRequestCurl('Signin', [
-//     'ClientID'     => $ghn->client_id,
-//     'Password'     => $ghn->password,
-//     'ApiKey'       => $ghn->api_key,
-//     'ApiSecretKey' => $ghn->api_secret
-// ]);
-// $rs = $ghn->getServiceInfos(['ToDistrictCode' => '0201', 'Weight' => 200, 'Height' => 10, 'Width' => 10, 'Length' => 10]);
-// $rs = $ghn->getServiceList(0222, 0216);
-// $rs = $ghn->getServiceList('0216');
-// $order = \TVA\Controllers\OrdersController::init();
-// $rs = $order->getWeight();
-// var_dump($rs);
-
-// $rs = $ghn->createShippingOrder([
-//     'FromDistrictCode'     => '0210',
-//     // 'ToDistrictCode'   => '0201',
-//     'Weight'               => 200,
-//     'Height'               => 10,
-//     'Width'                => 10,
-//     'Length'               => 10,
-//     'ServiceID'            => 53319,
-//     "RecipientName"        => "Nguyễn Dương Hoàng Vũ",
-//     "RecipientPhone"       => "0908626483",
-//     "DeliveryAddress"      => "214 Bắc Hải",
-//     "DeliveryDistrictCode" => "0201"
-// ]);
 
 $combo_term_taxonomy_id = pll_get_term_translations(5);
 $duongda_term_taxonomy_id = pll_get_term_translations(2);

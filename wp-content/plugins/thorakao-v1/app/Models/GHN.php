@@ -147,7 +147,7 @@ class GHN
 
     public function calculateFee($weight, $to_district_code, $service_id)
     {
-        $rs = $this->httpRequestCurl('CalculateServiceFee', [
+        $data = [
             'Items' => [
                 [
                     "Weight"           => $weight,
@@ -156,7 +156,8 @@ class GHN
                     "ServiceID"        => $service_id
                 ]
             ]
-        ]);
+        ];
+        $rs = $this->httpRequestCurl('CalculateServiceFee', $data);
 
         return $rs->Items[0]->ServiceFee;
     }

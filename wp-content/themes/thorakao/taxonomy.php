@@ -218,8 +218,9 @@ get_header(); ?>
                             function (is_confirm) {
                                 if (is_confirm) {
                                     swal.close();
-                                    var win = window.open(location.protocol + '//' + location.host + '/gio-hang', '_blank');
-                                    win.focus();
+                                    // var win = window.open(location.protocol + '//' + location.host + '/gio-hang', '_blank');
+                                    // win.focus();
+                                    window.location.href = location.protocol + '//' + location.host + '/gio-hang';
                                 } else {
                                     window.location.reload();
                                 }

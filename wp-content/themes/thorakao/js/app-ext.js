@@ -64,6 +64,9 @@ function translateServiceName(service_id) {
         case '53323':
             result = 'Giao trong 4 ngày';
             break;
+        case '53324':
+            result = 'Giao trong 5 ngày';
+            break;
         case '53325':
             result = 'Prime';
             break;

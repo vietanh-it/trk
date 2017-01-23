@@ -22,26 +22,65 @@ class BackendUI
 
     function __construct()
     {
-        add_filter('wp_headers', [$this, 'wp_headers']);
-        add_action('admin_head', [$this, 'admin_head']);
-        add_action('admin_footer', [$this, 'admin_footer']);
-        add_action('admin_menu', [$this, 'admin_menu']);
-        add_filter('show_admin_bar', [$this, 'show_admin_bar']);
-        add_action('wp_dashboard_setup', [$this, 'wp_dashboard_setup']);
+        add_filter('wp_headers', [
+            $this,
+            'wp_headers'
+        ]);
+        add_action('admin_head', [
+            $this,
+            'admin_head'
+        ]);
+        add_action('admin_footer', [
+            $this,
+            'admin_footer'
+        ]);
+        add_action('admin_menu', [
+            $this,
+            'admin_menu'
+        ]);
+        add_filter('show_admin_bar', [
+            $this,
+            'show_admin_bar'
+        ]);
+        add_action('wp_dashboard_setup', [
+            $this,
+            'wp_dashboard_setup'
+        ]);
 
-        add_filter('post_row_actions', [$this, 'page_row_actions_hook'], 10, 2);
+        add_filter('post_row_actions', [
+            $this,
+            'page_row_actions_hook'
+        ], 10, 2);
 
         // UI
         $this->add_columns_featured_image();
 
-        add_action('manage_product_posts_custom_column', [$this, 'manage_product_columns'], 10, 2);
+        add_action('manage_product_posts_custom_column', [
+            $this,
+            'manage_product_columns'
+        ], 10, 2);
 
-        add_action('save_post', [$this, 'savePostInfo'], 10, 3);
+        add_action('save_post', [
+            $this,
+            'savePostInfo'
+        ], 10, 3);
 
-        add_action('add_meta_boxes', [$this, 'orderInfoMetaBoxRegister']);
-        add_filter('manage_shop_order_posts_columns', [$this, 'shop_order_columns']);
-        add_action('manage_shop_order_posts_custom_column', [$this, 'render_shop_order_columns'], 2);
-        add_filter('manage_edit-shop_order_sortable_columns', [$this, 'my_cpt_columns']);
+        add_action('add_meta_boxes', [
+            $this,
+            'orderInfoMetaBoxRegister'
+        ]);
+        add_filter('manage_shop_order_posts_columns', [
+            $this,
+            'shop_order_columns'
+        ]);
+        add_action('manage_shop_order_posts_custom_column', [
+            $this,
+            'render_shop_order_columns'
+        ], 2);
+        add_filter('manage_edit-shop_order_sortable_columns', [
+            $this,
+            'my_cpt_columns'
+        ]);
 
         // add_settings_field(
         //     'currency_rate_setting_id',
@@ -66,7 +105,10 @@ class BackendUI
 
     function orderInfoMetaBoxRegister()
     {
-        add_meta_box('order-info', 'Thông tin đơn hàng', [$this, 'orderInfoMetaBox'], 'shop_order');
+        add_meta_box('order-info', 'Thông tin đơn hàng', [
+            $this,
+            'orderInfoMetaBox'
+        ], 'shop_order');
     }
 
     function orderInfoMetaBox($post)
@@ -149,7 +191,10 @@ class BackendUI
                             echo '<b style="color: red">Chờ xử lý</b>';
                         } elseif (in_array($order_info->status, ['processing'])) {
                             echo '<b style="color: green;">Đang xử lý</b>';
-                        } elseif (in_array($order_info->status, ['completed', 'publish'])) {
+                        } elseif (in_array($order_info->status, [
+                            'completed',
+                            'publish'
+                        ])) {
                             echo 'Đã hoàn tất';
                         } else {
                             echo '<b style="color: red">Đã hủy</b>';
@@ -171,16 +216,61 @@ class BackendUI
                         } elseif (in_array($order_info->status, ['processing'])) {
                             $url = wp_nonce_url(admin_url('admin-ajax.php?action=trk_ajax_handler_order&method=CompleteOrder&order_id=' . $post->ID));
                             echo '<a class="button tips complete" href="' . $url . '" data-tip="Hoàn tất">Hoàn tất đơn hàng</a>';
-                        } elseif (in_array($order_info->status, ['completed', 'publish'])) {
+                        } elseif (in_array($order_info->status, [
+                            'completed',
+                            'publish'
+                        ])) {
                             echo 'Đã hoàn tất';
                         } else {
                             echo '<b style="color: red">Đã hủy</b>';
                         }
                         ?>
+
+                        <a class="button tips pending" href="javascript:void(0)" id="create_shipping_order" data-order-id="<?php echo $order_info->ID; ?>" data-tip="Xử lý">Tạo đơn hàng Giao Hàng Nhanh</a>
                     </div>
                 </div>
             </div>
         </div>
+
+        <script>
+            var $ = jQuery.noConflict();
+            $(document).ready(function () {
+                $('#create_shipping_order').on('click', function () {
+
+                    $.ajax({
+                        url: ajaxurl,
+                        type: "post",
+                        dataType: 'json',
+                        data: {
+                            action: "trk_ajax_handler_order",
+                            method: "CreateShippingOrder",
+                            order_id: $(this).attr('data-order-id')
+                        },
+                        beforeSend: function () {
+                            // show_loading();
+                        },
+                        success: function (data) {
+                            // hide_loading();
+
+                            if (data.status == 'success') {
+                                alert('Tạo đơn hàng giao hàng nhanh thành công, mã đơn hàng : ' + data.data.OrderCode);
+                            } else {
+                                alert('Tạo đơn hàng thất bại: ' + data.data);
+                                // swal({
+                                //     "title": "Error",
+                                //     "text": data.data,
+                                //     "type": "error",
+                                //     html: true,
+                                //     confirmButtonColor: '#88b04b'
+                                // });
+                            }
+
+                        }
+                    });
+
+                });
+            });
+        </script>
     <?php }
 
     function savePostInfo($post_id, $post, $update)
@@ -195,7 +285,11 @@ class BackendUI
                     'ID' => $post_id
                 ]);
             }
-        } elseif (in_array($post->post_type, ['product', 'recipe', 'beauty'])) {
+        } elseif (in_array($post->post_type, [
+            'product',
+            'recipe',
+            'beauty'
+        ])) {
             if (empty($wpdb->get_row('SELECT * FROM ' . $wpdb->prefix . 'post_info WHERE ID = ' . $post_id))) {
                 $wpdb->insert($wpdb->prefix . 'post_info', ['ID' => $post_id]);
             }
@@ -279,7 +373,11 @@ class BackendUI
     function admin_footer()
     {
         global $pagenow;
-        $array_page = ['users.php', 'edit-comments.php', 'edit.php'];
+        $array_page = [
+            'users.php',
+            'edit-comments.php',
+            'edit.php'
+        ];
 
         if (is_admin() && in_array($pagenow, $array_page)) {
             ?>
@@ -363,13 +461,14 @@ class BackendUI
     function add_columns_featured_image()
     {
         $post_columns = new CPTColumns('product');
-        $post_columns->add_column('post_thumb',
-            [
-                'label' => 'Hình sản phẩm',
-                'type'  => 'thumb',
-                'size'  => ['50', '50']
+        $post_columns->add_column('post_thumb', [
+            'label' => 'Hình sản phẩm',
+            'type'  => 'thumb',
+            'size'  => [
+                '50',
+                '50'
             ]
-        );
+        ]);
 
         $post_columns->add_column('price', [
             'label' => 'Giá',
@@ -405,6 +504,7 @@ class BackendUI
         $columns['cb'] = $existing_columns['cb'];
         $columns['order_actions'] = __('Actions', 'woocommerce');
         $columns['order_status'] = 'Trạng thái đơn hàng';
+        $columns['ghn_id'] = __('Mã đơn hàng GHN', 'woocommerce');
         $columns['order_title'] = __('Mã đơn hàng', 'woocommerce');
         $columns['order_items'] = __('Đã mua', 'woocommerce');
         $columns['billing_address'] = __('Địa chỉ', 'woocommerce');
@@ -429,7 +529,10 @@ class BackendUI
                     echo '<span style="background: #d0d0d0; padding: 4px 8px;">Chờ xử lý</span>';
                 } elseif (in_array($the_order->status, ['processing'])) {
                     echo '<span style="color: red;">Đang xử lý</span>';
-                } elseif (in_array($the_order->status, ['completed', 'publish'])) {
+                } elseif (in_array($the_order->status, [
+                    'completed',
+                    'publish'
+                ])) {
                     echo '<span style="color: green;">Đã hoàn tất</span>';
                 } else {
                     echo '<span style="color: #777777;">Đã hủy</span>';
@@ -439,16 +542,17 @@ class BackendUI
                 echo '<a href="' . WP_SITEURL . '/wp-admin/post.php?post=' . $the_order->ID . '&action=edit">' . '#' . $the_order->code . '</a>';
                 break;
             case 'order_items':
-                $order_model = Orders::init();
-                $order_detail = $order_model->getOrderDetail($the_order->ID);
+                if(!empty($the_order->ID)) {
+                    $order_model = Orders::init();
+                    $order_detail = $order_model->getOrderDetail($the_order->ID);
 
-                $total_items = 0;
-                foreach ($order_detail as $item) {
-                    $total_items += $item->quantity;
+                    $total_items = 0;
+                    foreach ($order_detail as $item) {
+                        $total_items += $item->quantity;
+                    }
+
+                    echo $total_items . ' sản phẩm';
                 }
-
-                echo $total_items . ' sản phẩm';
-
                 break;
             case 'order_date' :
                 if ('0000-00-00 00:00:00' == $post->post_modified) {
@@ -493,7 +597,10 @@ class BackendUI
                         'icon'   => '<i class="dashicons dashicons-visibility"></i>'
                     ];
 
-                    if (in_array($the_order->status, ['pending', 'on-hold'])) {
+                    if (in_array($the_order->status, [
+                        'pending',
+                        'on-hold'
+                    ])) {
                         $actions['processing'] = [
                             'url'    => wp_nonce_url(admin_url('admin-ajax.php?action=trk_ajax_handler_order&method=ProcessOrder&order_id=' . $post->ID),
                                 'processing', 'processing'),
@@ -503,7 +610,11 @@ class BackendUI
                         ];
                     }
 
-                    if (in_array($the_order->status, ['pending', 'on-hold', 'processing'])) {
+                    if (in_array($the_order->status, [
+                        'pending',
+                        'on-hold',
+                        'processing'
+                    ])) {
                         $actions['complete'] = [
                             'url'    => wp_nonce_url(admin_url('admin-ajax.php?action=trk_ajax_handler_order&method=CompleteOrder&order_id=' . $post->ID),
                                 'complete'),
@@ -515,16 +626,34 @@ class BackendUI
 
                     foreach ($actions as $action) {
                         printf('<a class="button tips %s" href="%s" data-tip="%s" style="padding: 4px; margin-right: 5px;">%s</a>',
-                            esc_attr($action['action']),
-                            esc_url($action['url']), esc_attr($action['name']), ($action['icon']));
+                            esc_attr($action['action']), esc_url($action['url']), esc_attr($action['name']),
+                            ($action['icon']));
+                    }
+
+
+                    if(empty($the_order->ghn_id) && !empty($the_order->status)) {
+                        $create_shipping_order_url = wp_nonce_url(admin_url('admin-ajax.php?action=trk_ajax_handler_order&method=CreateShippingOrder&order_id=' . $post->ID));
+                        echo '<a class="button" href="' . $create_shipping_order_url . '" style="height: auto; padding: 0 10px; margin-right: 5px; margin-top: 5px;"><img style="height: 25px; vertical-align: middle; padding: 5px 0;" src="' . THEME_URL . '/images/ghn-backend.png"></a>';
                     }
 
                     $resend_email_url = wp_nonce_url(admin_url('admin-ajax.php?action=trk_ajax_handler_order&method=ResendEmailOrder&order_id=' . $post->ID));
 
                     echo '<a class="button tips resend-email" href="' . $resend_email_url . '" style="padding: 0 10px; margin-right: 5px; margin-top: 5px;">Gửi lại Email Order</a>';
+
                     ?>
                 </p>
                 <?php
+
+                break;
+            case 'ghn_id':
+                if(!empty($the_order->ID)) {
+                    $order_model = Orders::init();
+                    $order_detail = $order_model->getOrderInfo(['ID' => $the_order->ID]);
+
+                    if (!empty($order_detail->ghn_id)) {
+                        echo '<b style="color: #88B04B">' . $order_detail->ghn_id . '</b>';
+                    }
+                }
 
                 break;
         }

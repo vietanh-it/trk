@@ -71,8 +71,7 @@ class Orders
                 'status' => 'fail',
                 'data'   => 'Thorakao chưa hỗ trợ đặt hàng trên ngôn ngữ tiếng anh, vui lòng quay lại <a href="' . WP_SITEURL . '" style="color: #88b04b;">phiên bản tiếng việt</a>.'
             ];
-        }
-        else {
+        } else {
             // Nếu đã có product trong giỏ hàng
             if (isset($_SESSION['cart'][$product_id])) {
 
@@ -136,22 +135,23 @@ class Orders
         $total = $subtotal + $shipping_fee;
 
         $insert_data = [
-            'ID'              => $id,
-            'code'            => 'TRK' . $id,
-            'name'            => $data['name'],
-            'email'           => $data['email'],
-            'phone'           => $data['phone'],
-            'city_id'         => $data['city_id'],
-            'district_id'     => $data['district_id'],
-            'address'         => $data['address'],
-            'subtotal'        => $subtotal,
-            'total'           => $total,
-            'shipping_fee'    => $_SESSION['shipping_fee'],
-            'shipping_method' => $data['shipping_method'],
-            'payment_method'  => $data['payment_method'],
-            'note'            => $data['note'],
-            'status'          => 'pending',
-            'created_at'      => current_time('mysql')
+            'ID'             => $id,
+            'code'           => 'TRK' . $id,
+            'name'           => $data['name'],
+            'email'          => $data['email'],
+            'phone'          => $data['phone'],
+            'city_id'        => $data['city_id'],
+            'district_id'    => $data['district_id'],
+            'address'        => $data['address'],
+            'subtotal'       => $subtotal,
+            'total'          => $total,
+            'shipping_fee'   => $_SESSION['shipping_fee'],
+            'service_id'     => $data['shipping_method'],
+            'total_weight'   => $_SESSION['total_weight'],
+            'payment_method' => $data['payment_method'],
+            'note'           => $data['note'],
+            'status'         => 'pending',
+            'created_at'     => current_time('mysql')
         ];
         $this->wpdb->insert($this->tbl_order_info, $insert_data);
 
@@ -228,8 +228,7 @@ class Orders
 
         if (WP_DEBUG) {
             return wp_mail('vietanhtran.it@gmail.com', $subject, $content, 'Content-type: text/html');
-        }
-        else {
+        } else {
             wp_mail('thorakaoshop@thorakaovn.com', $subject, $content, 'Content-type: text/html');
             //wp_mail('vietanhtran.it@gmail.com', $subject, $content, 'Content-type: text/html');
             return wp_mail($order_info->email, $subject, $content, 'Content-type: text/html');
@@ -317,8 +316,7 @@ class Orders
             if (!empty($_SESSION['shipping_fee'])) {
                 $result['shipping_fee'] = $_SESSION['shipping_fee'];
                 $result['total'] = $_SESSION['shipping_fee'] + $result['subtotal'];
-            }
-            else {
+            } else {
                 $result['shipping_fee'] = 0;
                 $result['total'] = $result['subtotal'];
             }
@@ -327,6 +325,43 @@ class Orders
             $result['total_quantity_format'] = number_format($result['total_quantity']);
             $result['total_format'] = number_format($result['total']);
             $result['subtotal_format'] = number_format($result['subtotal']);
+        }
+
+        return $result;
+    }
+
+
+    public function createShippingOrder($data)
+    {
+        $ghn = GHN::init();
+        $order_info = $this->getOrderInfo(['ID' => $data['order_id']]);
+
+        $params = [
+            'ToDistrictCode'       => $order_info->district_id,
+            'Weight'               => $order_info->total_weight,
+            'Height'               => 10,
+            'Width'                => 10,
+            'Length'               => 10,
+            'ServiceID'            => $order_info->service_id,
+            "RecipientName"        => $order_info->name,
+            "RecipientPhone"       => $order_info->phone,
+            "DeliveryAddress"      => $order_info->address,
+            "DeliveryDistrictCode" => $order_info->district_id
+        ];
+        $rs = $ghn->createShippingOrder($params);
+
+        if (!empty($rs->OrderCode)) {
+            $this->wpdb->update($this->tbl_order_info, ['ghn_id' => $rs->OrderCode], ['ID' => $order_info->ID]);
+
+            $result = [
+                'status' => 'success',
+                'data'   => $rs
+            ];
+        } else {
+            $result = [
+                'status' => 'fail',
+                'data'   => $rs->ErrorMessage
+            ];
         }
 
         return $result;

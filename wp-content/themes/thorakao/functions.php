@@ -36,7 +36,7 @@ function themeSetup()
 add_action('wp_enqueue_scripts', 'setupScriptsStyles');
 function setupScriptsStyles()
 {
-    $version = '20160704_102';
+    $version = '20160704_103';
 
     if (!is_admin()) {
         // comment out the next two lines to load the local copy of jQuery

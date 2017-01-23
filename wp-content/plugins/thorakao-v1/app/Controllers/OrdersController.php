@@ -290,6 +290,25 @@ class OrdersController extends _BaseController
     }
 
 
+    public function ajaxCreateShippingOrder($data)
+    {
+        $result = [
+            'status'  => 'error',
+            'message' => 'Đã xảy ra lỗi, vui lòng thử lại.'
+        ];
+
+        if (empty($data['order_id'])) {
+            return $result;
+        }
+
+        $m_order = Orders::init();
+        $rs = $m_order->createShippingOrder($data);
+
+        wp_redirect(WP_SITEURL . '/wp-admin/edit.php?post_type=shop_order');
+        exit();
+    }
+
+
     public function ajaxResendEmailOrder($data)
     {
         $model = Orders::init();

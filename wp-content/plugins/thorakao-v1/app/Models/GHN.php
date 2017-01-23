@@ -151,9 +151,6 @@ class GHN
             'Items' => [
                 [
                     "Weight"           => $weight,
-                    "Length"           => 10,
-                    "Width"            => 10,
-                    "Height"           => 10,
                     "FromDistrictCode" => PICKHUB_DISTRICT,
                     "ToDistrictCode"   => $to_district_code,
                     "ServiceID"        => $service_id

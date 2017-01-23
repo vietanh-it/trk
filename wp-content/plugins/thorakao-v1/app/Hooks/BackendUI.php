@@ -542,7 +542,7 @@ class BackendUI
                 echo '<a href="' . WP_SITEURL . '/wp-admin/post.php?post=' . $the_order->ID . '&action=edit">' . '#' . $the_order->code . '</a>';
                 break;
             case 'order_items':
-                if(!empty($the_order->ID)) {
+                if (!empty($the_order->ID)) {
                     $order_model = Orders::init();
                     $order_detail = $order_model->getOrderDetail($the_order->ID);
 
@@ -631,7 +631,7 @@ class BackendUI
                     }
 
 
-                    if(empty($the_order->ghn_id) && !empty($the_order->status)) {
+                    if (empty($the_order->ghn_id) && !empty($the_order->status)) {
                         $create_shipping_order_url = wp_nonce_url(admin_url('admin-ajax.php?action=trk_ajax_handler_order&method=CreateShippingOrder&order_id=' . $post->ID));
                         echo '<a class="button" href="' . $create_shipping_order_url . '" style="height: auto; padding: 0 10px; margin-right: 5px; margin-top: 5px;"><img style="height: 25px; vertical-align: middle; padding: 5px 0;" src="' . THEME_URL . '/images/ghn-backend.png"></a>';
                     }
@@ -646,12 +646,12 @@ class BackendUI
 
                 break;
             case 'ghn_id':
-                if(!empty($the_order->ID)) {
+                if (!empty($the_order->ID)) {
                     $order_model = Orders::init();
                     $order_detail = $order_model->getOrderInfo(['ID' => $the_order->ID]);
 
                     if (!empty($order_detail->ghn_id)) {
-                        echo '<b style="color: #88B04B">' . $order_detail->ghn_id . '</b>';
+                        echo '<a href="https://5sao.ghn.vn/Tracking/ViewTracking/' . $order_detail->ghn_id . '/?" target="_blank" style="color: #88B04B">' . $order_detail->ghn_id . '</a>';
                     }
                 }
 

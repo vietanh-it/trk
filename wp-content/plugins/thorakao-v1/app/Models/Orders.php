@@ -151,7 +151,8 @@ class Orders
             'payment_method' => $data['payment_method'],
             'note'           => $data['note'],
             'status'         => 'pending',
-            'created_at'     => current_time('mysql')
+            'created_at'     => current_time('mysql'),
+            'is_new_version' => 1
         ];
         $this->wpdb->insert($this->tbl_order_info, $insert_data);
 
